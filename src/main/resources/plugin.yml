@@ -1,0 +1,4 @@
+name: SimplyChat
+version: 1.0
+api-version: 1.19
+main: cx.leo.simplychat.SimplyChat
