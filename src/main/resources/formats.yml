@@ -1,12 +1,12 @@
 formats:
   default:
-  chat: "<white><chat:default:name><name></chat:default:name><dark_gray>:</dark_gray> <message>"
-  actions:
-    name:
-      HOVER_TEXT:
-        - "<aqua><b><name>'s Profile"
-        - ""
-        - "<gray>Nickname: <aqua><nickname>"
-        - ""
-        - "<aqua>Click to /message user."
-      SUGGEST_COMMAND: "/msg <name>"
+    chat: "<white><chat:default:name><name></chat:default:name><dark_gray>:</dark_gray> <message>"
+    actions:
+      name:
+        HOVER_TEXT:
+          - "<aqua><b><name>'s Profile"
+          - ""
+          - "<gray>Nickname: <aqua><nickname>"
+          - ""
+          - "<aqua>Click to /message user."
+        SUGGEST_COMMAND: "/msg <name>"

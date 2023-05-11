@@ -41,11 +41,11 @@ public class FormatManager {
 
         YamlConfiguration config = plugin.getConfigManager().getFormatConfig().yaml();
         if (config == null) return;
-        ConfigurationSection section = config.getConfigurationSection("groups");
+        ConfigurationSection section = config.getConfigurationSection("formats");
         if (section == null) return;
         section.getKeys(false).forEach(
                 group -> {
-                    Format format = new Format(group.toLowerCase(), section.getString(group + ".format"));
+                    Format format = new Format(group.toLowerCase(), section.getString(group + ".chat"));
 
                     ConfigurationSection actions = section.getConfigurationSection(group + ".actions");
                     if (actions == null) {
