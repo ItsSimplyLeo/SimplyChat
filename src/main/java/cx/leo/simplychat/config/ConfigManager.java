@@ -8,7 +8,6 @@ public class ConfigManager {
     private final Config formatConfig;
 
     public ConfigManager(SimplyChat plugin) {
-
         this.formatConfig = new Config(plugin, "formats");
     }
 
