@@ -1,11 +1,12 @@
 package cx.leo.simplychat.format;
 
+import net.kyori.adventure.text.event.ClickEvent;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 public class FormatManager {
 
@@ -21,14 +22,14 @@ public class FormatManager {
         return formats;
     }
 
-    public Format getDefaultFormat() {
-        return defaultFormat;
+    public @NotNull Format getDefaultFormat() {
+        return getFormat("default");
     }
 
     public @NotNull Format getFormat(String formatName) {
         Format format = formats.get(formatName.toLowerCase());
 
-        if (format == null) return getDefaultFormat();
+        if (format == null) return defaultFormat;
 
         return format;
     }
@@ -36,7 +37,6 @@ public class FormatManager {
     public void reload() {
         formats.clear();
 
-        // group.default.format/hover-text
         if (configuration == null) return;
         ConfigurationSection section = configuration.getConfigurationSection("groups");
         if (section == null) return;
@@ -44,16 +44,25 @@ public class FormatManager {
                 group -> {
                     Format format = new Format(group.toLowerCase(), section.getString(group + ".format"));
 
-                    ConfigurationSection hoverSec = section.getConfigurationSection(group + ".hover-text");
+                    ConfigurationSection actions = section.getConfigurationSection(group + ".actions");
                     if (section == null) {
                         formats.put(group.toLowerCase(), format);
                         return;
                     }
 
-                    hoverSec.getKeys(false).forEach(
-                            hoverId -> {
-                                FormatHover hover = new FormatHover(hoverId, Collections.singletonList(hoverSec.getString(hoverId)));
-                                format.addHover(hover);
+                    actions.getKeys(false).forEach(
+                            actionId -> {
+                                List<String> hover = actions.getStringList(actionId + ".HOVER_TEXT");
+                                ClickEvent action = null;
+
+                                for (ClickEvent.Action clickAction : ClickEvent.Action.values()) {
+                                    if (actions.isSet(clickAction.name())) {
+                                        action = ClickEvent.clickEvent(clickAction, actions.getString(actionId + "." + clickAction, "error"));
+                                        break;
+                                    }
+                                }
+
+                                format.addActions(actionId, new FormatActions(actionId, action, hover));
                             }
                     );
 

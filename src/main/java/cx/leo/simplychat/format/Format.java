@@ -1,9 +1,11 @@
 package cx.leo.simplychat.format;
 
+import cx.leo.simplychat.utils.ComponentUtils;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.Tag;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Sound;
@@ -16,12 +18,12 @@ public class Format {
     private final String id;
     private final String content;
 
-    private HashMap<String, FormatHover> hovers;
+    private HashMap<String, FormatActions> actions;
 
     public Format(String id, String content) {
         this.id = id;
         this.content = content;
-        this.hovers = new HashMap<>();
+        this.actions = new HashMap<>();
     }
 
     public String getId() {
@@ -32,12 +34,29 @@ public class Format {
         return content;
     }
 
-    public HashMap<String, FormatHover> getHovers() {
-        return hovers;
+    public HashMap<String, FormatActions> getActions() {
+        return actions;
     }
 
-    public void addHover(FormatHover hover) {
-        hovers.put(hover.getId(), hover);
+    public FormatActions getAction(String actionsId) {
+        return actions.get(actionsId.toLowerCase());
+    }
+
+    public void addActions(String actionId, FormatActions actions) {
+        this.actions.put(actionId.toLowerCase(), actions);
+    }
+
+    public Tag getChatResolver(String actionsId) {
+        var mm = ComponentUtils.miniCommon();
+        FormatActions actions = getAction(actionsId);
+        Component hover = Component.empty();
+
+        for (String line : actions.hoverText()) hover = hover.append(mm.deserialize(line)).append(Component.newline());
+
+        return Tag.styling(
+                actions.clickEvent(),
+                HoverEvent.showText(hover)
+        );
     }
 
     public Component parse(Player source, Component sourceDisplayName, Component message, Audience viewer) {
@@ -52,7 +71,11 @@ public class Format {
             }
         }
 
-        return MiniMessage.miniMessage().deserialize(content, Placeholder.component("name", source.name()), Placeholder.component("message", message));
+        return ComponentUtils.miniChat().deserialize(
+                content,
+                Placeholder.component("name", source.name()),
+                Placeholder.component("message", message)
+        );
     }
 
 }
