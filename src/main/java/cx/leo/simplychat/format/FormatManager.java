@@ -1,8 +1,9 @@
 package cx.leo.simplychat.format;
 
+import cx.leo.simplychat.SimplyChat;
 import net.kyori.adventure.text.event.ClickEvent;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -10,11 +11,12 @@ import java.util.List;
 
 public class FormatManager {
 
+    private final SimplyChat plugin;
     private final Format defaultFormat = new Format("default-backup", "<gray><name><dark_gray>: <white><message>");
-    private final FileConfiguration configuration = null;
     private final HashMap<String, Format> formats = new HashMap<>();
 
-    public FormatManager() {
+    public FormatManager(SimplyChat plugin) {
+        this.plugin = plugin;
         this.reload();
     }
 
@@ -37,15 +39,16 @@ public class FormatManager {
     public void reload() {
         formats.clear();
 
-        if (configuration == null) return;
-        ConfigurationSection section = configuration.getConfigurationSection("groups");
+        YamlConfiguration config = plugin.getConfigManager().getFormatConfig().yaml();
+        if (config == null) return;
+        ConfigurationSection section = config.getConfigurationSection("groups");
         if (section == null) return;
         section.getKeys(false).forEach(
                 group -> {
                     Format format = new Format(group.toLowerCase(), section.getString(group + ".format"));
 
                     ConfigurationSection actions = section.getConfigurationSection(group + ".actions");
-                    if (section == null) {
+                    if (actions == null) {
                         formats.put(group.toLowerCase(), format);
                         return;
                     }
