@@ -18,12 +18,16 @@ public class ComponentUtils {
 
     private final static MiniMessage MINI_COMMON = MiniMessage.builder()
             .tags(TagResolver.resolver(
+                    TagResolver.standard(),
                     TagResolver.resolver("weblink", ComponentUtils::weblink)
             ))
             .build();
 
     private final static MiniMessage MINI_CHAT = MiniMessage.builder()
-            .tags(TagResolver.resolver("chat", ComponentUtils::chat))
+            .tags(TagResolver.resolver(
+                    TagResolver.standard(),
+                    TagResolver.resolver("chat", ComponentUtils::chat)
+            ))
             .build();
 
     public static MiniMessage miniRaw() {
