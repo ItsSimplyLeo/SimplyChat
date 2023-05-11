@@ -52,7 +52,7 @@ public class Format {
             }
         }
 
-        return MiniMessage.miniMessage().deserialize(content, Placeholder.component("name", sourceDisplayName), Placeholder.component("message", message));
+        return MiniMessage.miniMessage().deserialize(content, Placeholder.component("name", source.name()), Placeholder.component("message", message));
     }
 
 }
