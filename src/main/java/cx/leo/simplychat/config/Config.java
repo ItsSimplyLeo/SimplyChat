@@ -1,4 +1,4 @@
-package cx.leo.simplychat.utils;
+package cx.leo.simplychat.config;
 
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -31,16 +31,13 @@ public class Config {
         return name + ".yml";
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public void reload() {
         File file = new File(plugin.getDataFolder(), getFullName());
 
         if (!file.exists()) {
-            boolean success = file.getParentFile().mkdirs();
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            file.getParentFile().mkdirs();
+            plugin.saveResource(getFullName(), false);
         }
 
         this.yamlConfiguration = new YamlConfiguration();

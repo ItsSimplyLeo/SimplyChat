@@ -1,7 +1,6 @@
 package cx.leo.simplychat.config;
 
 import cx.leo.simplychat.SimplyChat;
-import cx.leo.simplychat.utils.Config;
 
 public class ConfigManager {
 
