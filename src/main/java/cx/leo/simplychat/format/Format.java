@@ -7,7 +7,7 @@ import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.minimessage.tag.Tag;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
@@ -62,7 +62,7 @@ public class Format {
     public Component parse(Player source, Component sourceDisplayName, Component message, Audience viewer) {
         if (viewer instanceof Player player) {
             String playerName = player.getName();
-            if (LegacyComponentSerializer.legacySection().serialize(message).toLowerCase().contains(playerName.toLowerCase())) {
+            if (PlainTextComponentSerializer.plainText().serialize(message).toLowerCase().contains(playerName.toLowerCase())) {
 
                 message = message.replaceText(content -> content.matchLiteral(player.getName()).replacement(Component.text("@" + player.getName(), NamedTextColor.YELLOW)).once());
 
