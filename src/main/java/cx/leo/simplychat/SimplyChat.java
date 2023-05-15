@@ -1,5 +1,6 @@
 package cx.leo.simplychat;
 
+import cx.leo.simplychat.commands.ChatCommand;
 import cx.leo.simplychat.config.ConfigManager;
 import cx.leo.simplychat.format.FormatManager;
 import cx.leo.simplychat.listener.ChatListener;
@@ -22,6 +23,7 @@ public class SimplyChat extends JavaPlugin {
         this.formatManager = new FormatManager(this);
 
         this.registerEvent(new ChatListener(this));
+        this.getCommand("chat").setExecutor(new ChatCommand(this));
 
         instance = this;
     }

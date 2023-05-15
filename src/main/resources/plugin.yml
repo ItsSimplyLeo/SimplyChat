@@ -3,5 +3,10 @@ version: 1.0
 api-version: 1.19
 main: cx.leo.simplychat.SimplyChat
 
+commands:
+  chat:
+    description: "Main command to manage SimplyChat"
+    permission: "simplychat.main"
+
 softdepend:
   - 'Vault'
