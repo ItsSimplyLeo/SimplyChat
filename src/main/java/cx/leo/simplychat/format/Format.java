@@ -17,8 +17,7 @@ public class Format {
 
     private final String id;
     private final String content;
-
-    private HashMap<String, FormatActions> actions;
+    private final HashMap<String, FormatActions> actions;
 
     public Format(String id, String content) {
         this.id = id;
@@ -66,13 +65,13 @@ public class Format {
 
                 message = message.replaceText(content -> content.matchLiteral(player.getName()).replacement(Component.text("@" + player.getName(), NamedTextColor.YELLOW)).once());
 
-                //viewer.playSound(Sound.sound(Key.key("BLOCK_NOTE_BLOCK_PLING"), Sound.Source.BLOCK, 1, 1));
                 player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 0.5f);
             }
         }
 
         return ComponentUtils.miniChat().deserialize(
                 content,
+                Placeholder.component("displayname", sourceDisplayName),
                 Placeholder.component("name", source.name()),
                 Placeholder.component("message", message)
         );
