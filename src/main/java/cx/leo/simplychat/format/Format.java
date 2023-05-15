@@ -3,6 +3,7 @@ package cx.leo.simplychat.format;
 import cx.leo.simplychat.utils.ComponentUtils;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.minimessage.tag.Tag;
@@ -63,7 +64,7 @@ public class Format {
         for (String line : actions.hoverText()) hover = hover.append(mm.deserialize(line, TagResolver.resolver(placeholders))).append(Component.newline());
 
         return Tag.styling(
-                actions.clickEvent(),
+                ClickEvent.clickEvent(actions.clickEvent().action(), actions.clickEvent().value().replace("<name>", player.getName())),
                 HoverEvent.showText(hover)
         );
     }

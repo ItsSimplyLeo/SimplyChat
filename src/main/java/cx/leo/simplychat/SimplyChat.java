@@ -3,6 +3,7 @@ package cx.leo.simplychat;
 import cx.leo.simplychat.config.ConfigManager;
 import cx.leo.simplychat.format.FormatManager;
 import cx.leo.simplychat.listener.ChatListener;
+import cx.leo.simplychat.utils.VaultUtil;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -15,6 +16,8 @@ public class SimplyChat extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        VaultUtil.checkEnabled(this);
+
         this.configManager = new ConfigManager(this);
         this.formatManager = new FormatManager(this);
 

@@ -49,7 +49,9 @@ public class ComponentUtils {
     public static TagResolver playerTags(Player player) {
         return TagResolver.resolver(Arrays.asList(
                 Placeholder.component("name", player.name()),
-                Placeholder.component("nickname", player.displayName())
+                Placeholder.component("nickname", player.displayName()),
+                Placeholder.parsed("prefix", VaultUtil.getPlayerPrefix(player)),
+                Placeholder.parsed("suffix", VaultUtil.getPlayerSuffix(player))
         ));
     }
 
