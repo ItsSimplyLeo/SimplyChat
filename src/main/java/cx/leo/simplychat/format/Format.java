@@ -6,11 +6,14 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.minimessage.tag.Tag;
+import net.kyori.adventure.text.minimessage.tag.resolver.ArgumentQueue;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class Format {
@@ -45,12 +48,22 @@ public class Format {
         this.actions.put(actionId.toLowerCase(), actions);
     }
 
-    public Tag getChatResolver(String actionsId) {
+    public Tag getChatResolver(ArgumentQueue queue, Player player) {
+        String action = queue.popOr("Action ID was not found.").value();
+
         var mm = ComponentUtils.miniCommon();
-        FormatActions actions = getAction(actionsId);
+        FormatActions actions = getAction(action);
+
+        if (actions == null) throw new IllegalArgumentException("Tried to use invalid action in format.");
+
         Component hover = Component.empty();
 
-        for (String line : actions.hoverText()) hover = hover.append(mm.deserialize(line)).append(Component.newline());
+        var placeholders = Arrays.asList(
+                Placeholder.component("nickname", player.displayName()),
+                Placeholder.component("name", player.name())
+        );
+
+        for (String line : actions.hoverText()) hover = hover.append(mm.deserialize(line, TagResolver.resolver(placeholders))).append(Component.newline());
 
         return Tag.styling(
                 actions.clickEvent(),
@@ -69,11 +82,13 @@ public class Format {
             }
         }
 
-        return ComponentUtils.miniChat().deserialize(
+        return ComponentUtils.miniCommon().deserialize(
                 content,
-                Placeholder.component("displayname", sourceDisplayName),
+                Placeholder.component("nickname", sourceDisplayName),
                 Placeholder.component("name", source.name()),
-                Placeholder.component("message", message)
+                Placeholder.component("message", message),
+
+                TagResolver.resolver("chat", (queue, context) -> getChatResolver(queue, source))
         );
     }
 
