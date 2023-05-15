@@ -59,8 +59,8 @@ public class FormatManager {
                                 ClickEvent action = null;
 
                                 for (ClickEvent.Action clickAction : ClickEvent.Action.values()) {
-                                    if (actions.isSet(clickAction.name())) {
-                                        action = ClickEvent.clickEvent(clickAction, actions.getString(actionId + "." + clickAction, "error"));
+                                    if (actions.isSet(actionId + "." + clickAction.name())) {
+                                        action = ClickEvent.clickEvent(clickAction, actions.getString(actionId + "." + clickAction.name(), "error"));
                                         break;
                                     }
                                 }
