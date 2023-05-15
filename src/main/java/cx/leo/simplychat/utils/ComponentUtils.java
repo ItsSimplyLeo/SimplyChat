@@ -9,7 +9,11 @@ import net.kyori.adventure.text.minimessage.Context;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.Tag;
 import net.kyori.adventure.text.minimessage.tag.resolver.ArgumentQueue;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
+import org.bukkit.entity.Player;
+
+import java.util.Arrays;
 
 public class ComponentUtils {
 
@@ -40,6 +44,13 @@ public class ComponentUtils {
                 ClickEvent.openUrl(link),
                 HoverEvent.showText(Component.text("Open " + link))
         );
+    }
+
+    public static TagResolver playerTags(Player player) {
+        return TagResolver.resolver(Arrays.asList(
+                Placeholder.component("name", player.name()),
+                Placeholder.component("nickname", player.displayName())
+        ));
     }
 
 }

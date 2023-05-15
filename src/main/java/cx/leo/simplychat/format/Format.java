@@ -58,10 +58,7 @@ public class Format {
 
         Component hover = Component.empty();
 
-        var placeholders = Arrays.asList(
-                Placeholder.component("nickname", player.displayName()),
-                Placeholder.component("name", player.name())
-        );
+        var placeholders = ComponentUtils.playerTags(player);
 
         for (String line : actions.hoverText()) hover = hover.append(mm.deserialize(line, TagResolver.resolver(placeholders))).append(Component.newline());
 
@@ -84,10 +81,8 @@ public class Format {
 
         return ComponentUtils.miniCommon().deserialize(
                 content,
-                Placeholder.component("nickname", sourceDisplayName),
-                Placeholder.component("name", source.name()),
+                ComponentUtils.playerTags(source),
                 Placeholder.component("message", message),
-
                 TagResolver.resolver("chat", (queue, context) -> getChatResolver(queue, source))
         );
     }
