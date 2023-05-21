@@ -38,6 +38,12 @@ public class ChatListener implements Listener, ChatRenderer {
         Format format = plugin.getFormatManager().getFormat(VaultUtil.getPrimaryGroup(source));
 
         FileConfiguration config = plugin.getConfig();
+        message = handleShowItem(config, source, message);
+
+        return format.parse(source, sourceDisplayName, message, viewer);
+    }
+
+    private Component handleShowItem(FileConfiguration config, Player source, Component message) {
         String plainMessage = PlainTextComponentSerializer.plainText().serialize(message);
 
         if (config.getBoolean("item-hover.enabled", false) && source.hasPermission("simplychat.showitem")) {
@@ -75,7 +81,6 @@ public class ChatListener implements Listener, ChatRenderer {
                 }
             }
         }
-
-        return format.parse(source, sourceDisplayName, message, viewer);
+        return message;
     }
 }
