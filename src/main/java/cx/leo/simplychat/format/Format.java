@@ -1,6 +1,7 @@
 package cx.leo.simplychat.format;
 
 import cx.leo.simplychat.utils.ComponentUtils;
+import cx.leo.simplychat.utils.PlaceholderUtil;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
@@ -14,7 +15,6 @@ import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class Format {
@@ -81,7 +81,7 @@ public class Format {
         }
 
         return ComponentUtils.miniCommon().deserialize(
-                content,
+                PlaceholderUtil.parse(source, content),
                 ComponentUtils.playerTags(source),
                 Placeholder.component("message", message),
                 TagResolver.resolver("chat", (queue, context) -> getChatResolver(queue, source))
