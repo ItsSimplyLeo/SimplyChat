@@ -67,7 +67,8 @@ public class Format {
             if (it.hasNext()) hover = hover.append(Component.newline());
         }
 
-        return Tag.styling(
+        if (actions.clickEvent() == null) return Tag.styling(HoverEvent.showText(hover));
+        else return Tag.styling(
                 ClickEvent.clickEvent(actions.clickEvent().action(), actions.clickEvent().value().replace("<name>", player.getName())),
                 HoverEvent.showText(hover)
         );
