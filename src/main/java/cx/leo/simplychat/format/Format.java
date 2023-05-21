@@ -61,7 +61,11 @@ public class Format {
 
         var placeholders = ComponentUtils.playerTags(player);
 
-        for (String line : actions.hoverText()) hover = hover.append(mm.deserialize(line, TagResolver.resolver(placeholders))).append(Component.newline());
+        var it = actions.hoverText().iterator();
+        while (it.hasNext()) {
+            hover = hover.append(mm.deserialize(it.next(), TagResolver.resolver(placeholders)));
+            if (it.hasNext()) hover = hover.append(Component.newline());
+        }
 
         return Tag.styling(
                 ClickEvent.clickEvent(actions.clickEvent().action(), actions.clickEvent().value().replace("<name>", player.getName())),
