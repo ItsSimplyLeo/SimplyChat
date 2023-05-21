@@ -17,6 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 public class ChatListener implements Listener, ChatRenderer {
@@ -33,6 +34,7 @@ public class ChatListener implements Listener, ChatRenderer {
     }
 
     @Override
+    @SuppressWarnings("nullable")
     public @NotNull Component render(@NotNull Player source, @NotNull Component sourceDisplayName, @NotNull Component message, @NotNull Audience viewer) {
         Format format = plugin.getFormatManager().getFormat(VaultUtil.getPrimaryGroup(source));
 
@@ -44,22 +46,29 @@ public class ChatListener implements Listener, ChatRenderer {
                 if (plainMessage.contains(replacement)) {
                     Component itemComponent = Component.empty();
                     ItemStack itemStack = source.getInventory().getItemInMainHand();
-                    if (itemStack.getType() == Material.AIR) {
-                        itemComponent = ComponentUtils.miniCommon().deserialize(config.getString("item-hover.formats.empty", "<yellow>Nothing!"));
-                    } else {
+                    if (itemStack.getType() == Material.AIR) itemComponent = ComponentUtils.miniCommon().deserialize(config.getString("item-hover.formats.empty", "<yellow>Nothing!"));
+                    else {
+                        Component itemName = Component.translatable(itemStack.getType());
+
+                        if (itemStack.hasItemMeta()) {
+                            ItemMeta meta = itemStack.getItemMeta();
+                            var displayName = meta.displayName();
+                            if (displayName != null) itemName = displayName;
+                        }
+
                         var amt = Placeholder.parsed("amount", String.valueOf(itemStack.getAmount()));
-                        var itm = Placeholder.component("item", itemStack.displayName());
+                        var itm = Placeholder.component("item", itemName);
 
-                        String hoverFormat;
+                        String itemFormat;
 
-                        if (itemStack.getAmount() > 1) hoverFormat = config.getString("item-hover.formats.multiple", "<dark_gray>[<aqua>x<amount></aqua><white><item></white>]</dark_gray>");
-                        else hoverFormat = config.getString("item-hover.formats.single", "<dark_gray>[<white><item></white>]</dark_gray>");
+                        if (itemStack.getAmount() > 1) itemFormat = config.getString("item-hover.formats.multiple", "<dark_gray>[<aqua>x<amount></aqua><white><item></white>]</dark_gray>");
+                        else itemFormat = config.getString("item-hover.formats.single", "<dark_gray>[<white><item></white>]</dark_gray>");
 
                         itemComponent = itemComponent.append(
                                 ComponentUtils
                                         .miniCommon()
-                                        .deserialize(hoverFormat, amt, itm)
-                        );
+                                        .deserialize(itemFormat, amt, itm)
+                        ).hoverEvent(itemStack);
                     }
 
                     message = message.replaceText(TextReplacementConfig.builder().matchLiteral(replacement).replacement(itemComponent).once().build());
