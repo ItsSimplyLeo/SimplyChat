@@ -34,7 +34,6 @@ public class ChatListener implements Listener, ChatRenderer {
     }
 
     @Override
-    @SuppressWarnings("nullable")
     public @NotNull Component render(@NotNull Player source, @NotNull Component sourceDisplayName, @NotNull Component message, @NotNull Audience viewer) {
         Format format = plugin.getFormatManager().getFormat(VaultUtil.getPrimaryGroup(source));
 
