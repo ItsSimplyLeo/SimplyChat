@@ -2,6 +2,7 @@ package cx.leo.simplychat.listener;
 
 import cx.leo.simplychat.SimplyChat;
 import cx.leo.simplychat.format.Format;
+import cx.leo.simplychat.utils.VaultUtil;
 import io.papermc.paper.chat.ChatRenderer;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.audience.Audience;
@@ -26,7 +27,7 @@ public class ChatListener implements Listener, ChatRenderer {
 
     @Override
     public @NotNull Component render(@NotNull Player source, @NotNull Component sourceDisplayName, @NotNull Component message, @NotNull Audience viewer) {
-        Format format = plugin.getFormatManager().getDefaultFormat();
+        Format format = plugin.getFormatManager().getFormat(VaultUtil.getPrimaryGroup(source));
         return format.parse(source, sourceDisplayName, message, viewer);
     }
 }

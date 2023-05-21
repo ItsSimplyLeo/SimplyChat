@@ -8,11 +8,13 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class FormatManager {
 
     private final SimplyChat plugin;
     private final Format defaultFormat = new Format("default-backup", "<gray><name><dark_gray>: <white><message>");
+    private final AtomicBoolean defaultPresent = new AtomicBoolean(false);
     private final HashMap<String, Format> formats = new HashMap<>();
 
     public FormatManager(SimplyChat plugin) {
@@ -31,7 +33,10 @@ public class FormatManager {
     public @NotNull Format getFormat(String formatName) {
         Format format = formats.get(formatName.toLowerCase());
 
-        if (format == null) return defaultFormat;
+        if (format == null) {
+            if (defaultPresent.get()) return formats.get("default");
+            else return defaultFormat;
+        }
 
         return format;
     }
@@ -46,6 +51,8 @@ public class FormatManager {
         section.getKeys(false).forEach(
                 group -> {
                     Format format = new Format(group.toLowerCase(), section.getString(group + ".chat"));
+
+                    defaultPresent.set(group.equalsIgnoreCase("default"));
 
                     ConfigurationSection actions = section.getConfigurationSection(group + ".actions");
                     if (actions == null) {
