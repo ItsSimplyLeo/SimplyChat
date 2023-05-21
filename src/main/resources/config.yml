@@ -1,0 +1,11 @@
+item-hover:
+  enabled: false
+  formats:
+    empty: '<yellow>Nothing!'
+    single: '<dark_gray>[<white><item></white>]</dark_gray>'
+    multiple: '<dark_gray>[<aqua>x<amount></aqua><white><item></white>]</dark_gray>'
+  replacements:
+    - '[i]'
+    - '[item]'
+    - '[hand]'
+    - '[showitem]'

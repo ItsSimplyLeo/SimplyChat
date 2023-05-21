@@ -2,14 +2,21 @@ package cx.leo.simplychat.listener;
 
 import cx.leo.simplychat.SimplyChat;
 import cx.leo.simplychat.format.Format;
+import cx.leo.simplychat.utils.ComponentUtils;
 import cx.leo.simplychat.utils.VaultUtil;
 import io.papermc.paper.chat.ChatRenderer;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextReplacementConfig;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public class ChatListener implements Listener, ChatRenderer {
@@ -28,6 +35,39 @@ public class ChatListener implements Listener, ChatRenderer {
     @Override
     public @NotNull Component render(@NotNull Player source, @NotNull Component sourceDisplayName, @NotNull Component message, @NotNull Audience viewer) {
         Format format = plugin.getFormatManager().getFormat(VaultUtil.getPrimaryGroup(source));
+
+        FileConfiguration config = plugin.getConfig();
+        String plainMessage = PlainTextComponentSerializer.plainText().serialize(message);
+
+        if (config.getBoolean("item-hover.enabled", false) && source.hasPermission("simplychat.showitem")) {
+            for (String replacement : config.getStringList("item-hover.replacements")) {
+                if (plainMessage.contains(replacement)) {
+                    Component itemComponent = Component.empty();
+                    ItemStack itemStack = source.getInventory().getItemInMainHand();
+                    if (itemStack.getType() == Material.AIR) {
+                        itemComponent = ComponentUtils.miniCommon().deserialize(config.getString("item-hover.formats.empty", "<yellow>Nothing!"));
+                    } else {
+                        var amt = Placeholder.parsed("amount", String.valueOf(itemStack.getAmount()));
+                        var itm = Placeholder.component("item", itemStack.displayName());
+
+                        String hoverFormat;
+
+                        if (itemStack.getAmount() > 1) hoverFormat = config.getString("item-hover.formats.multiple", "<dark_gray>[<aqua>x<amount></aqua><white><item></white>]</dark_gray>");
+                        else hoverFormat = config.getString("item-hover.formats.single", "<dark_gray>[<white><item></white>]</dark_gray>");
+
+                        itemComponent = itemComponent.append(
+                                ComponentUtils
+                                        .miniCommon()
+                                        .deserialize(hoverFormat, amt, itm)
+                        );
+                    }
+
+                    message = message.replaceText(TextReplacementConfig.builder().matchLiteral(replacement).replacement(itemComponent).once().build());
+                    break;
+                }
+            }
+        }
+
         return format.parse(source, sourceDisplayName, message, viewer);
     }
 }
