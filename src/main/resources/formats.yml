@@ -1,6 +1,6 @@
 formats:
   default:
-    chat: "<white><chat:default:name><name></chat:default:name><dark_gray>:</dark_gray> <message>"
+    chat: "<prefix><gray><chat:name><name></chat><dark_gray><suffix>:</dark_gray> <message>"
     actions:
       name:
         HOVER_TEXT:
