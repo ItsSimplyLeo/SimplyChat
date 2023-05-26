@@ -40,5 +40,5 @@ public interface Style {
         SOLID, MULTI, GRADIENT
     }
 
-    StyleImpl DEFAULT = new StyleImpl("default", Type.SOLID, "#FFFFFF");
+    StyleImpl DEFAULT = new StyleImpl("default", Type.SOLID, "");
 }
