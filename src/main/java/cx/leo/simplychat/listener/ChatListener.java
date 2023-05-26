@@ -38,6 +38,9 @@ public class ChatListener implements Listener, ChatRenderer {
         Format format = plugin.getFormatManager().getFormat(VaultUtil.getPrimaryGroup(source));
 
         FileConfiguration config = plugin.getConfig();
+        String rawMessage = PlainTextComponentSerializer.plainText().serialize(message);
+
+        message = plugin.getUserManager().getOrCreateUser(source).getChatStyle().apply(rawMessage);
         message = handleShowItem(config, source, message);
 
         return format.parse(source, sourceDisplayName, message, viewer);
