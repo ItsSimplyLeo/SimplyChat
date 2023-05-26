@@ -1,18 +1,19 @@
 package cx.leo.simplychat.user;
 
 import cx.leo.simplychat.style.Style;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
 public interface User {
 
-    UUID getUUID();
+    @NotNull UUID getUUID();
 
-    Style getNicknameStyle();
+    @NotNull Style getNicknameStyle();
 
     void setNicknameStyle(Style style);
 
-    Style getChatStyle();
+    @NotNull Style getChatStyle();
 
     void setChatStyle(Style style);
 }

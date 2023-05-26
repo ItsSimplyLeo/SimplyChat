@@ -25,8 +25,10 @@ public class PlayerJoinListener implements Listener {
         CompletableFuture<User> future = CompletableFuture.supplyAsync(() -> dataManager.loadUser(player.getUniqueId()));
 
         future.thenAccept(user -> {
-            if (user == null) userManager.createUser(player);
+            if (user == null) user = userManager.createUser(player);
             else plugin.getUserManager().register(user);
+
+            player.displayName(user.getChatStyle().apply(player.getName()));
         });
     }
 

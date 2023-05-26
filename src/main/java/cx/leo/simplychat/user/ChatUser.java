@@ -1,6 +1,7 @@
 package cx.leo.simplychat.user;
 
 import cx.leo.simplychat.style.Style;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
@@ -8,19 +9,19 @@ public class ChatUser implements User {
 
     private final UUID uuid;
 
-    private Style nicknameStyle, chatStyle;
+    private Style nicknameStyle = Style.DEFAULT, chatStyle = Style.DEFAULT;
 
     public ChatUser(UUID uuid) {
         this.uuid = uuid;
     }
 
     @Override
-    public UUID getUUID() {
+    public @NotNull UUID getUUID() {
         return uuid;
     }
 
     @Override
-    public Style getNicknameStyle() {
+    public @NotNull Style getNicknameStyle() {
         return nicknameStyle;
     }
 
@@ -30,7 +31,7 @@ public class ChatUser implements User {
     }
 
     @Override
-    public Style getChatStyle() {
+    public @NotNull Style getChatStyle() {
         return chatStyle;
     }
 

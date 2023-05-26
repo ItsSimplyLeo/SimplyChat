@@ -39,4 +39,6 @@ public interface Style {
     enum Type {
         SOLID, MULTI, GRADIENT
     }
+
+    StyleImpl DEFAULT = new StyleImpl("default", Type.SOLID, "#FFFFFF");
 }
