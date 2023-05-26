@@ -1,6 +1,7 @@
 package cx.leo.simplychat;
 
 import cx.leo.simplychat.commands.ChatCommand;
+import cx.leo.simplychat.commands.ChatCommandManager;
 import cx.leo.simplychat.config.ConfigManager;
 import cx.leo.simplychat.data.DataManager;
 import cx.leo.simplychat.data.impl.sqlite.SQLiteDataManager;
@@ -20,6 +21,7 @@ public class SimplyChat extends JavaPlugin {
 
     private static SimplyChat instance;
 
+    private ChatCommandManager commandManager;
     private ConfigManager configManager;
     private FormatManager formatManager;
     private StyleManager styleManager;
@@ -30,6 +32,7 @@ public class SimplyChat extends JavaPlugin {
     public void onEnable() {
         VaultUtil.checkEnabled(this);
 
+        this.commandManager = new ChatCommandManager(this);
         this.configManager = new ConfigManager(this);
         this.formatManager = new FormatManager(this);
         this.styleManager = new StyleManager(this);
@@ -40,7 +43,7 @@ public class SimplyChat extends JavaPlugin {
         this.registerEvent(new PlayerJoinListener(this));
         this.registerEvent(new PlayerQuitListener(this));
 
-        this.getCommand("chat").setExecutor(new ChatCommand(this));
+        this.commandManager.parse(new ChatCommand(this));
 
         instance = this;
     }
@@ -57,6 +60,10 @@ public class SimplyChat extends JavaPlugin {
 
     public void registerEvent(Listener listener) {
         this.getServer().getPluginManager().registerEvents(listener, this);
+    }
+
+    public ChatCommandManager getCommandManager() {
+        return commandManager;
     }
 
     public ConfigManager getConfigManager() {

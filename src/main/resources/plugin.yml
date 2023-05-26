@@ -6,10 +6,5 @@ description: "Modern Chat plugin utilizing the PaperAPI and MiniMessage features
 authors: ['ItsSimplyLeo']
 website: "https://github.com/ItsSimplyLeo/SimplyChat"
 
-commands:
-  chat:
-    description: "Main command to manage SimplyChat"
-    permission: "simplychat.main"
-
 softdepend:
   - 'Vault'
