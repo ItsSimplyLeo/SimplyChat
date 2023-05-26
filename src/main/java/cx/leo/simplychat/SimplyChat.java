@@ -7,6 +7,7 @@ import cx.leo.simplychat.data.impl.sqlite.SQLiteDataManager;
 import cx.leo.simplychat.format.FormatManager;
 import cx.leo.simplychat.listener.ChatListener;
 import cx.leo.simplychat.listener.PlayerJoinListener;
+import cx.leo.simplychat.listener.PlayerQuitListener;
 import cx.leo.simplychat.style.StyleManager;
 import cx.leo.simplychat.user.UserManager;
 import cx.leo.simplychat.utils.VaultUtil;
@@ -37,10 +38,16 @@ public class SimplyChat extends JavaPlugin {
 
         this.registerEvent(new ChatListener(this));
         this.registerEvent(new PlayerJoinListener(this));
+        this.registerEvent(new PlayerQuitListener(this));
 
         this.getCommand("chat").setExecutor(new ChatCommand(this));
 
         instance = this;
+    }
+
+    @Override
+    public void onDisable() {
+        getUserManager().updateUsers();
     }
 
     public void reload() {

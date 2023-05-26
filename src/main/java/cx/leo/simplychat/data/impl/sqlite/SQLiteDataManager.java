@@ -29,6 +29,7 @@ public class SQLiteDataManager implements DataManager {
 
     public SQLiteDataManager(SimplyChat plugin) {
         this.plugin = plugin;
+        this.init();
     }
 
     @Override
@@ -133,13 +134,14 @@ public class SQLiteDataManager implements DataManager {
         PreparedStatement statement = null;
 
         try {
-            statement = connection.prepareStatement("REPLACE INTO player_ranks (uuid,nickname_style,chat_style) VALUES(?,?,?);");
+            statement = connection.prepareStatement("REPLACE INTO chat_users (uuid,nickname_style,chat_style) VALUES(?,?,?);");
             statement.setString(1, user.getUUID().toString());
             statement.setString(2, user.getNicknameStyle().getId());
             statement.setString(3, user.getChatStyle().getId());
             statement.executeUpdate();
         } catch (SQLException ex) {
             plugin.getLogger().severe("Error whilst getting player...");
+            ex.printStackTrace();
         } finally {
             try {
                 if (statement != null) statement.close();

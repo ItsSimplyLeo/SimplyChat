@@ -53,7 +53,7 @@ public class StyleImpl implements Style {
                 for (char character : chars) {
                     if (count + 1 > colors.length) count = 0;
 
-                    sb.append(colors[count]).append(character);
+                    sb.append("<color:").append(colors[count]).append(">").append(character).append("</color>");
                     count++;
                 }
 

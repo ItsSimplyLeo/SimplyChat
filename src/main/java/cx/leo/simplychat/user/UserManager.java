@@ -69,8 +69,19 @@ public class UserManager {
         else user = new ChatUser(uuid);
 
         updateUser(user);
+        users.put(uuid, user);
 
         return user;
+    }
+
+    /**
+     * Unload and update a user
+     *
+     * @param user user to update and unload
+     */
+    public void unload(@NotNull User user) {
+        updateUser(user);
+        users.remove(user.getUUID());
     }
 
     /**
