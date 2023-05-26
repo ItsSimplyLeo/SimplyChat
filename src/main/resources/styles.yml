@@ -1,0 +1,19 @@
+styles:
+  solid_example:
+    id: "solid_example"
+    type: SOLID
+    colors:
+      - '#FFFFFF'
+  gradient_example:
+    id: "gradient_example"
+    type: GRADIENT
+    colors:
+      - '#F70800' # Red
+      - '#00DEF7' # Blue
+  multi_example:
+    id: "multi_example"
+    type: MULTI
+    colors:
+      - '#F70800' # Red
+      - '#00DEF7' # Blue
+      - '#31F700' # Green
