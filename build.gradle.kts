@@ -16,12 +16,11 @@ repositories {
 dependencies {
     // PaperMC-API
     paperweight.paperDevBundle("1.19.4-R0.1-SNAPSHOT")
-    //compileOnly("io.papermc.paper:paper-api:1.19.3-R0.1-SNAPSHOT")
 
     // Cloud Command
-    compileOnly("cloud.commandframework", "cloud-paper", "1.8.0")
-    compileOnly("cloud.commandframework", "cloud-annotations", "1.8.0")
-    compileOnly("cloud.commandframework", "cloud-minecraft-extras", "1.8.0")
+    implementation("cloud.commandframework", "cloud-paper", "1.8.0")
+    implementation("cloud.commandframework", "cloud-annotations", "1.8.0")
+    implementation("cloud.commandframework", "cloud-minecraft-extras", "1.8.0")
 
     // PlaceholderAPI
     compileOnly("me.clip:placeholderapi:2.11.2")
@@ -46,6 +45,10 @@ tasks {
 
     javadoc {
         options.encoding = Charsets.UTF_8.name()
+    }
+
+    shadowJar {
+        relocate("cloud.commandframework", "cx.leo.simplychat.lib.cloud")
     }
 
     build {
