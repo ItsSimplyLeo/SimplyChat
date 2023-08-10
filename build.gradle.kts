@@ -15,7 +15,7 @@ repositories {
 
 dependencies {
     // PaperMC-API
-    paperweight.paperDevBundle("1.19.4-R0.1-SNAPSHOT")
+    paperweight.paperDevBundle("1.20.1-R0.1-SNAPSHOT")
 
     // Cloud Command
     implementation("cloud.commandframework", "cloud-paper", "1.8.0")
