@@ -1,4 +1,6 @@
 # SimplyChat
+(PLUGIN CURRENTLY UNDER EARLY DEVELOPMENT USE AT OWN RISK!)
+
 Modern chat plugin developed for multiple use-cases utilizing modern PaperAPI. This project will not make any promises to support legacy version support.
 
 Download
