@@ -89,7 +89,9 @@ public class StyleManager {
      * @param id id to search for
      * @return Style found from id
      */
-    public @Nullable Style getStyle(String id) {
-        return styles.get(id.toLowerCase());
+    public @NotNull Style getStyle(String id) {
+        Style style = styles.get(id.toLowerCase());
+        if (style == null) return Style.DEFAULT;
+        else return style;
     }
 }

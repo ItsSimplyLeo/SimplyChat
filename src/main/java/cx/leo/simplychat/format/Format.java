@@ -74,7 +74,7 @@ public class Format {
         );
     }
 
-    public Component parse(Player source, Component sourceDisplayName, Component message, Audience viewer) {
+    public Component parse(Player source, Component displayName, Component message, Audience viewer) {
         if (viewer instanceof Player player) {
             String playerName = player.getName();
             if (PlainTextComponentSerializer.plainText().serialize(message).toLowerCase().contains(playerName.toLowerCase())) {
@@ -87,6 +87,7 @@ public class Format {
 
         return ComponentUtils.miniCommon().deserialize(
                 PlaceholderUtil.parse(source, content),
+                Placeholder.component("name", displayName),
                 ComponentUtils.playerTags(source),
                 Placeholder.component("message", message),
                 TagResolver.resolver("chat", (queue, context) -> getChatResolver(queue, source))

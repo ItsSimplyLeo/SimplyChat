@@ -4,7 +4,7 @@ formats:
     actions:
       name:
         HOVER_TEXT:
-          - "<aqua><b><name>'s Profile"
+          - "<aqua><b><username>'s Profile"
           - ""
           - "<gray>Nickname: <aqua><nickname>"
           - ""

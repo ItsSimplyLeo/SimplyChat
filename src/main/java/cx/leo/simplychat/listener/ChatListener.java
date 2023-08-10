@@ -2,6 +2,8 @@ package cx.leo.simplychat.listener;
 
 import cx.leo.simplychat.SimplyChat;
 import cx.leo.simplychat.format.Format;
+import cx.leo.simplychat.user.User;
+import cx.leo.simplychat.user.UserManager;
 import cx.leo.simplychat.utils.ComponentUtils;
 import cx.leo.simplychat.utils.VaultUtil;
 import io.papermc.paper.chat.ChatRenderer;
@@ -23,9 +25,11 @@ import org.jetbrains.annotations.NotNull;
 public class ChatListener implements Listener, ChatRenderer {
 
     private final SimplyChat plugin;
+    private final UserManager userManager;
 
     public ChatListener(SimplyChat plugin) {
         this.plugin = plugin;
+        this.userManager = plugin.getUserManager();
     }
 
     @EventHandler
@@ -34,16 +38,19 @@ public class ChatListener implements Listener, ChatRenderer {
     }
 
     @Override
-    public @NotNull Component render(@NotNull Player source, @NotNull Component sourceDisplayName, @NotNull Component message, @NotNull Audience viewer) {
+    public @NotNull Component render(@NotNull Player source, @NotNull Component displayName, @NotNull Component message, @NotNull Audience viewer) {
         Format format = plugin.getFormatManager().getFormat(VaultUtil.getPrimaryGroup(source));
 
         FileConfiguration config = plugin.getConfig();
         String rawMessage = PlainTextComponentSerializer.plainText().serialize(message);
 
-        message = plugin.getUserManager().getOrCreateUser(source).getChatStyle().apply(rawMessage);
+        User user = userManager.getUser(source);
+
+        displayName = user.getNicknameStyle().apply(source.getName());
+        message = userManager.getUser(source).getChatStyle().apply(rawMessage);
         message = handleShowItem(config, source, message);
 
-        return format.parse(source, sourceDisplayName, message, viewer);
+        return format.parse(source, displayName, message, viewer);
     }
 
     private Component handleShowItem(FileConfiguration config, Player source, Component message) {

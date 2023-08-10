@@ -4,11 +4,11 @@ import cx.leo.simplychat.SimplyChat;
 import cx.leo.simplychat.data.DataManager;
 import cx.leo.simplychat.user.User;
 import cx.leo.simplychat.user.UserManager;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-
-import java.util.concurrent.CompletableFuture;
 
 public class PlayerJoinListener implements Listener {
 
@@ -18,17 +18,21 @@ public class PlayerJoinListener implements Listener {
         this.plugin = plugin;
     }
 
+    @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         UserManager userManager = plugin.getUserManager();
         DataManager dataManager = plugin.getDataManager();
-        CompletableFuture<User> future = CompletableFuture.supplyAsync(() -> dataManager.loadUser(player.getUniqueId()));
 
-        future.thenAccept(user -> {
-            if (user == null) user = userManager.createUser(player);
-            else plugin.getUserManager().register(user);
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            User user = dataManager.loadUser(player.getUniqueId());
 
-            player.displayName(user.getChatStyle().apply(player.getName()));
+            if (user == null) {
+                user = userManager.createUser(player);
+                dataManager.updateUser(user);
+            }
+
+            userManager.register(user);
         });
     }
 

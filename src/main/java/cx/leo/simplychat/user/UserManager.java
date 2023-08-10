@@ -26,9 +26,7 @@ public class UserManager {
      * @return the {@link User} of a player
      */
     public User createUser(@NotNull Player player) {
-        User user = new ChatUser(player.getUniqueId());
-        users.put(user.getUUID(), user);
-        return user;
+        return new ChatUser(player.getUniqueId());
     }
 
     /**
@@ -52,7 +50,7 @@ public class UserManager {
      * @param player Player to get the {@link User} of
      * @return The {@link User} found from the {@link Player}
      */
-    public @Nullable User getUser(Player player) {
+    public @NotNull User getUser(Player player) {
         return users.get(player.getUniqueId());
     }
 

@@ -50,12 +50,12 @@ public class SimplyChat extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        getUserManager().updateUsers();
+        getDataManager().disconnect();
+        //getUserManager().updateUsers();
     }
 
     public void reload() {
         this.getConfigManager().reloadAll();
-        this.getFormatManager().reload();
     }
 
     public void registerEvent(Listener listener) {

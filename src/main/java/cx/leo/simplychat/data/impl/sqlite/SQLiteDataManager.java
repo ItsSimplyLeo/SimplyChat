@@ -5,6 +5,7 @@ import cx.leo.simplychat.data.DataManager;
 import cx.leo.simplychat.style.StyleManager;
 import cx.leo.simplychat.user.ChatUser;
 import cx.leo.simplychat.user.User;
+import org.bukkit.Bukkit;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
@@ -45,15 +46,29 @@ public class SQLiteDataManager implements DataManager {
     }
 
     public Connection getSQLConnection() {
-        if (connection == null) connect();
+        if (!plugin.getDataFolder().exists()) plugin.getDataFolder().mkdirs();
 
-        try {
-            if (connection.isClosed()) connect();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        File dataFolder = new File(plugin.getDataFolder(), "users.db");
+        if (!dataFolder.exists()){
+            try {
+                dataFolder.createNewFile();
+            } catch (IOException e) {
+                plugin.getLogger().log(Level.SEVERE, "File write error: users.db");
+            }
         }
-
-        return connection;
+        try {
+            if(connection!=null&&!connection.isClosed()){
+                return connection;
+            }
+            Class.forName("org.sqlite.JDBC");
+            connection = DriverManager.getConnection("jdbc:sqlite:" + dataFolder);
+            return connection;
+        } catch (SQLException ex) {
+            plugin.getLogger().log(Level.SEVERE,"SQLite exception on initialize", ex);
+        } catch (ClassNotFoundException ex) {
+            plugin.getLogger().log(Level.SEVERE, "You need the SQLite JBDC library. Google it. Put it in /lib folder.");
+        }
+        return null;
     }
 
     @Override
@@ -104,7 +119,7 @@ public class SQLiteDataManager implements DataManager {
             result = statement.executeQuery();
 
             while (result.next()) {
-                if (result.getString("uuid").equals(uuid.toString())) {
+                if (UUID.fromString(result.getString("uuid")).equals(uuid)) {
                     User user = new ChatUser(uuid);
 
                     StyleManager styleManager = plugin.getStyleManager();
@@ -130,24 +145,25 @@ public class SQLiteDataManager implements DataManager {
 
     @Override
     public void updateUser(User user) {
-        Connection connection = getSQLConnection();
-        PreparedStatement statement = null;
-
+        Connection conn = null;
+        PreparedStatement ps = null;
         try {
-            statement = connection.prepareStatement("REPLACE INTO chat_users (uuid,nickname_style,chat_style) VALUES(?,?,?);");
-            statement.setString(1, user.getUUID().toString());
-            statement.setString(2, user.getNicknameStyle().getId());
-            statement.setString(3, user.getChatStyle().getId());
-            statement.executeUpdate();
+            conn = getSQLConnection();
+            ps = conn.prepareStatement("REPLACE INTO chat_users (uuid,nickname_style,chat_style) VALUES(?,?,?)");
+            ps.setString(1, user.getUUID().toString());
+            ps.setString(2, user.getNicknameStyle().getId());
+            ps.setString(3, user.getChatStyle().getId());
+            ps.executeUpdate();
         } catch (SQLException ex) {
-            plugin.getLogger().severe("Error whilst getting player...");
             ex.printStackTrace();
         } finally {
             try {
-                if (statement != null) statement.close();
-                if (connection != null) connection.close();
-            } catch (SQLException e) {
-                plugin.getLogger().severe("Error whilst closing statement & connection...");
+                if (ps != null)
+                    ps.close();
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
             }
         }
     }
