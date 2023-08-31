@@ -63,7 +63,7 @@ public class Format {
 
         var it = actions.hoverText().iterator();
         while (it.hasNext()) {
-            hover = hover.append(mm.deserialize(it.next(), TagResolver.resolver(placeholders)));
+            hover = hover.append(mm.deserialize(PlaceholderUtil.parse(player, it.next()), TagResolver.resolver(placeholders)));
             if (it.hasNext()) hover = hover.append(Component.newline());
         }
 
