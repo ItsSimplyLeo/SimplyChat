@@ -56,6 +56,7 @@ public class SimplyChat extends JavaPlugin {
 
     public void reload() {
         this.getConfigManager().reloadAll();
+        this.formatManager.reload();
     }
 
     public void registerEvent(Listener listener) {
