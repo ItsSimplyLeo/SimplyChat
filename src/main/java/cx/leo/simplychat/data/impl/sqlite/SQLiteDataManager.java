@@ -1,21 +1,16 @@
 package cx.leo.simplychat.data.impl.sqlite;
 
-import cx.leo.simplychat.SimplyChat;
+import cx.leo.simplychat.SimplyChatPlugin;
 import cx.leo.simplychat.data.DataManager;
 import cx.leo.simplychat.style.StyleManager;
 import cx.leo.simplychat.user.ChatUser;
 import cx.leo.simplychat.user.User;
-import org.bukkit.Bukkit;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
 import java.sql.*;
-import java.util.Optional;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Future;
 import java.util.logging.Level;
 
 public class SQLiteDataManager implements DataManager {
@@ -27,10 +22,10 @@ public class SQLiteDataManager implements DataManager {
             "PRIMARY KEY (`uuid`)" +
             ");";
 
-    private final SimplyChat plugin;
+    private final SimplyChatPlugin plugin;
     private Connection connection;
 
-    public SQLiteDataManager(SimplyChat plugin) {
+    public SQLiteDataManager(SimplyChatPlugin plugin) {
         this.plugin = plugin;
         this.init();
     }
@@ -111,8 +106,7 @@ public class SQLiteDataManager implements DataManager {
     }
 
     @Override
-    public @NotNull CompletableFuture<Optional<User>> loadUser(UUID uuid) {
-        CompletableFuture<Optional<User>> completableFuture = new CompletableFuture<>();
+    public @Nullable User loadUser(UUID uuid) {
         Connection connection = getSQLConnection();
         PreparedStatement statement = null;
         ResultSet result;
@@ -129,8 +123,7 @@ public class SQLiteDataManager implements DataManager {
                     user.setNicknameStyle(styleManager.getStyle(result.getString("nickname_style")));
                     user.setChatStyle(styleManager.getStyle(result.getString("chat_style")));
 
-                    completableFuture.complete(Optional.of(user));
-                    return completableFuture;
+                    return user;
                 }
             }
         } catch (SQLException e) {
@@ -144,8 +137,7 @@ public class SQLiteDataManager implements DataManager {
             }
         }
 
-        completableFuture.complete(Optional.empty());
-        return completableFuture;
+        return null;
     }
 
     @Override

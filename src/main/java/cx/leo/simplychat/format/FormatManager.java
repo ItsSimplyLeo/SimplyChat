@@ -1,6 +1,6 @@
 package cx.leo.simplychat.format;
 
-import cx.leo.simplychat.SimplyChat;
+import cx.leo.simplychat.SimplyChatPlugin;
 import net.kyori.adventure.text.event.ClickEvent;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -11,11 +11,11 @@ import java.util.List;
 
 public class FormatManager {
 
-    private final SimplyChat plugin;
+    private final SimplyChatPlugin plugin;
     private final Format defaultFormat = new Format("default-backup", "<gray><name><dark_gray>: <white><message>");
     private final HashMap<String, Format> formats = new HashMap<>();
 
-    public FormatManager(SimplyChat plugin) {
+    public FormatManager(SimplyChatPlugin plugin) {
         this.plugin = plugin;
         this.reload();
     }

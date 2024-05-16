@@ -1,6 +1,6 @@
 package cx.leo.simplychat.utils;
 
-import cx.leo.simplychat.SimplyChat;
+import cx.leo.simplychat.SimplyChatPlugin;
 import net.milkbowl.vault.chat.Chat;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -9,7 +9,7 @@ public class VaultUtil {
 
     private static Chat chat;
 
-    public static void checkEnabled(SimplyChat plugin) {
+    public static void checkEnabled(SimplyChatPlugin plugin) {
         var pm = plugin.getServer().getPluginManager();
         boolean enabled = pm.isPluginEnabled("Vault");
 

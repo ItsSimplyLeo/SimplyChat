@@ -10,15 +10,17 @@ Right now the only way to obtain a jar is to build it yourself with the instruct
 To compile yourself:
 1) Clone this repo
 2) Run `./gradlew build` in your terminal
-3) Grab the `SimplyChat-1.0.0.jar` file from the `build/libs/` directory
+3) Use the `SimplyChat-{version}.jar` file from the `build/libs/` directory
 
 Format configuration
 -----
-To avoid clustered strings in the configurations from the nature of MiniMessage, this system uses a `<chat:{NAME}>` key to apply Hover and Click actions.
+We utilize the use of the adventure and MiniMessage APIs. You can test your MiniMessage strings with their web-tool https://webui.advntr.dev/
+
+An example for the default chat, we created a `<style:{NAME}>` tag for MiniMessage which will implement the predefined styles in `styles.yml` - Do note that this is planned to be changed into a MySQL/Database system.
 ```yaml
 formats:
   default:
-    chat: "<prefix><gray><chat:name><name></chat><dark_gray><suffix>:</dark_gray> <message>"
+    chat: "<prefix><gray><style:default><action:name><name></action></style><dark_gray><suffix>:</dark_gray> <message>"
     actions:
       name:
         HOVER_TEXT:

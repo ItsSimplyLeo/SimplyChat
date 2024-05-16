@@ -1,6 +1,6 @@
 package cx.leo.simplychat;
 
-import cx.leo.simplychat.commands.ChatCommand;
+import cx.leo.simplychat.commands.ChatCommands;
 import cx.leo.simplychat.commands.ChatCommandManager;
 import cx.leo.simplychat.config.ConfigManager;
 import cx.leo.simplychat.data.DataManager;
@@ -16,9 +16,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-public class SimplyChat extends JavaPlugin {
+public class SimplyChatPlugin extends JavaPlugin {
 
-    private static SimplyChat instance;
+    private static SimplyChatPlugin instance;
 
     private ChatCommandManager commandManager;
     private ConfigManager configManager;
@@ -41,7 +41,7 @@ public class SimplyChat extends JavaPlugin {
         this.registerEvent(new ChatListener(this));
         this.registerEvent(new PlayerConnectionListener(this));
 
-        this.commandManager.parse(new ChatCommand(this));
+        this.commandManager.parse(new ChatCommands(this));
 
         instance = this;
     }
@@ -85,7 +85,7 @@ public class SimplyChat extends JavaPlugin {
         return userManager;
     }
 
-    public static SimplyChat getInstance() {
+    public static SimplyChatPlugin getInstance() {
         return instance;
     }
 

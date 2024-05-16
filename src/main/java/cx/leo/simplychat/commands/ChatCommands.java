@@ -1,36 +1,38 @@
 package cx.leo.simplychat.commands;
 
-import cloud.commandframework.annotations.Argument;
-import cloud.commandframework.annotations.CommandDescription;
-import cloud.commandframework.annotations.CommandMethod;
-import cloud.commandframework.annotations.CommandPermission;
-import cx.leo.simplychat.SimplyChat;
+import cx.leo.simplychat.SimplyChatPlugin;
 import cx.leo.simplychat.style.Style;
 import cx.leo.simplychat.user.User;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.incendo.cloud.annotations.Argument;
+import org.incendo.cloud.annotations.Command;
+import org.incendo.cloud.annotations.CommandDescription;
+import org.incendo.cloud.annotations.Permission;
 import org.jetbrains.annotations.NotNull;
 
-public class ChatCommand {
+public class ChatCommands {
 
-    private final SimplyChat plugin;
+    private final static String COMMAND_PREFIX = "simplychat|chat";
 
-    public ChatCommand(SimplyChat plugin) {
+    private final SimplyChatPlugin plugin;
+
+    public ChatCommands(SimplyChatPlugin plugin) {
         this.plugin = plugin;
     }
 
-    @CommandMethod("chat reload")
-    @CommandPermission("simplychat.command.reload")
+    @Command(COMMAND_PREFIX + " reload")
+    @Permission("simplychat.command.reload")
     @CommandDescription("Reload SimplyChat's configuration")
     public void onChatReload(@NotNull CommandSender sender) {
         plugin.reload();
         sender.sendMessage(Component.text("SimplyChat has been reloaded!", NamedTextColor.AQUA));
     }
 
-    @CommandMethod("dev/view_styles")
-    @CommandPermission("simplychat.comand.dev")
+    @Command(COMMAND_PREFIX + " style list")
+    @Permission("simplychat.command.dev")
     public void devViewStyles(Player sender) {
         User user = plugin.getUserManager().getUser(sender);
 
@@ -55,8 +57,8 @@ public class ChatCommand {
         sender.sendMessage(component);
     }
 
-    @CommandMethod("dev/test_styles <style>")
-    @CommandPermission("simplychat.comand.dev")
+    @Command(COMMAND_PREFIX + " style test <style>")
+    @Permission("simplychat.command.dev")
     public void devTest(Player sender, @NotNull @Argument("style") String styleName) {
         User user = plugin.getUserManager().getUser(sender);
         Style style = plugin.getStyleManager().getStyle(styleName);
@@ -68,8 +70,8 @@ public class ChatCommand {
         plugin.getDataManager().updateUser(user);
     }
 
-    @CommandMethod("dev/reset_styles")
-    @CommandPermission("simplychat.comand.dev")
+    @Command(COMMAND_PREFIX + " style reset")
+    @Permission("simplychat.command.dev")
     public void reset(Player sender) {
         User user = plugin.getUserManager().getUser(sender);
 

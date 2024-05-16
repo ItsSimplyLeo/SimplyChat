@@ -1,38 +1,34 @@
 package cx.leo.simplychat.user;
 
-import cx.leo.simplychat.SimplyChat;
+import cx.leo.simplychat.SimplyChatPlugin;
 import cx.leo.simplychat.data.DataManager;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Map;
+import java.util.HashMap;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class UserManager {
 
-    private final SimplyChat plugin;
-    private final Map<UUID, User> users;
+    private final SimplyChatPlugin plugin;
+    private final HashMap<UUID, User> users;
 
-    public UserManager(SimplyChat plugin) {
+    public UserManager(SimplyChatPlugin plugin) {
         this.plugin = plugin;
-        this.users = new ConcurrentHashMap<>();
+        this.users = new HashMap<>();
     }
 
     /**
-     * Creates a new {@link User} object
      *
      * @param player Player to be converted
      * @return the {@link User} of a player
      */
-    @NotNull
     public User createUser(@NotNull Player player) {
         return new ChatUser(player.getUniqueId());
     }
 
     /**
-     * Registers a user into the map
      *
      * @param user User to be registered, should only be used by a {@link cx.leo.simplychat.data.DataManager}
      */
@@ -41,12 +37,10 @@ public class UserManager {
     }
 
     /**
-     * Get the Map of currently tracked users
      *
      * @return Tracked users
      */
-    @NotNull
-    public Map<UUID, User> getUsers() {
+    public HashMap<UUID, User> getUsers() {
         return users;
     }
 
@@ -111,10 +105,5 @@ public class UserManager {
                 users.values().forEach(dataManager::updateUser);
             }
         }.runTaskAsynchronously(plugin);
-    }
-
-    public void attemptForceUpdate() {
-        DataManager dataManager = plugin.getDataManager();
-        users.values().forEach(dataManager::updateUser);
     }
 }

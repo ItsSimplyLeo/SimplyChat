@@ -1,38 +1,25 @@
 package cx.leo.simplychat.commands;
 
-import cloud.commandframework.CommandTree;
-import cloud.commandframework.annotations.AnnotationParser;
-import cloud.commandframework.arguments.parser.ParserParameters;
-import cloud.commandframework.arguments.parser.StandardParameters;
-import cloud.commandframework.bukkit.BukkitCommandManager;
-import cloud.commandframework.bukkit.CloudBukkitCapabilities;
-import cloud.commandframework.execution.AsynchronousCommandExecutionCoordinator;
-import cloud.commandframework.execution.CommandExecutionCoordinator;
-import cloud.commandframework.meta.CommandMeta;
-import cloud.commandframework.paper.PaperCommandManager;
-import cx.leo.simplychat.SimplyChat;
+import cx.leo.simplychat.SimplyChatPlugin;
 import org.bukkit.command.CommandSender;
-
-import java.util.function.Function;
+import org.incendo.cloud.SenderMapper;
+import org.incendo.cloud.annotations.AnnotationParser;
+import org.incendo.cloud.bukkit.BukkitCommandManager;
+import org.incendo.cloud.bukkit.CloudBukkitCapabilities;
+import org.incendo.cloud.execution.ExecutionCoordinator;
+import org.incendo.cloud.paper.PaperCommandManager;
 
 public class ChatCommandManager {
 
     private AnnotationParser<CommandSender> annotationParser;
     private BukkitCommandManager<CommandSender> commandManager;
 
-    public ChatCommandManager(SimplyChat plugin) {
-
-        final Function<CommandTree<CommandSender>, CommandExecutionCoordinator<CommandSender>> executionCoordinatorFunction =
-                AsynchronousCommandExecutionCoordinator.<CommandSender>builder().build();
-
-        final Function<CommandSender, CommandSender> mapperFunction = Function.identity();
-
+    public ChatCommandManager(SimplyChatPlugin plugin) {
         try {
             commandManager = new PaperCommandManager<>(
-                    /* Owning plugin */ plugin,
-                    /* Coordinator function */ executionCoordinatorFunction,
-                    /* Command Sender -> C */ mapperFunction,
-                    /* C -> Command Sender */ mapperFunction
+                    plugin,
+                    ExecutionCoordinator.simpleCoordinator(),
+                    SenderMapper.identity()
             );
         } catch (final Exception e) {
             plugin.getLogger().severe("Failed to initialize the command manager.");
@@ -43,7 +30,7 @@ public class ChatCommandManager {
         //
         // Register Brigadier mappings
         //
-        if (this.commandManager.hasCapability(CloudBukkitCapabilities.BRIGADIER)) {
+        if (this.commandManager.hasCapability(CloudBukkitCapabilities.NATIVE_BRIGADIER)) {
             this.commandManager.registerBrigadier();
         }
 
@@ -54,20 +41,9 @@ public class ChatCommandManager {
             ((PaperCommandManager<CommandSender>) commandManager).registerAsynchronousCompletions();
         }
 
-        //
-        // Create the annotation parser. This allows you to define commands using methods annotated with
-        // @CommandMethod
-        //
-        final Function<ParserParameters, CommandMeta> commandMetaFunction = p ->
-                CommandMeta.simple()
-                        // This will allow you to decorate commands with descriptions
-                        .with(CommandMeta.DESCRIPTION, p.get(StandardParameters.DESCRIPTION, "No description"))
-                        .build();
-
         this.annotationParser = new AnnotationParser<>(
                 /* Manager */ commandManager,
-                /* Command sender type */ CommandSender.class,
-                /* Mapper for command meta instances */ commandMetaFunction
+                /* Command sender type */ CommandSender.class
         );
     }
 
