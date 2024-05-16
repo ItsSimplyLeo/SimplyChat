@@ -15,13 +15,15 @@ import org.jetbrains.annotations.NotNull;
 
 public class ChatCommands {
 
+    private final static String COMMAND_PREFIX = "simplychat|chat";
+
     private final SimplyChatPlugin plugin;
 
     public ChatCommands(SimplyChatPlugin plugin) {
         this.plugin = plugin;
     }
 
-    @Command("chat reload")
+    @Command(COMMAND_PREFIX + " reload")
     @Permission("simplychat.command.reload")
     @CommandDescription("Reload SimplyChat's configuration")
     public void onChatReload(@NotNull CommandSender sender) {
@@ -29,7 +31,7 @@ public class ChatCommands {
         sender.sendMessage(Component.text("SimplyChat has been reloaded!", NamedTextColor.AQUA));
     }
 
-    @Command("dev/view_styles")
+    @Command(COMMAND_PREFIX + " style list")
     @Permission("simplychat.command.dev")
     public void devViewStyles(Player sender) {
         User user = plugin.getUserManager().getUser(sender);
@@ -55,7 +57,7 @@ public class ChatCommands {
         sender.sendMessage(component);
     }
 
-    @Command("dev/test_styles <style>")
+    @Command(COMMAND_PREFIX + " style test <style>")
     @Permission("simplychat.command.dev")
     public void devTest(Player sender, @NotNull @Argument("style") String styleName) {
         User user = plugin.getUserManager().getUser(sender);
@@ -68,7 +70,7 @@ public class ChatCommands {
         plugin.getDataManager().updateUser(user);
     }
 
-    @Command("dev/reset_styles")
+    @Command(COMMAND_PREFIX + " style reset")
     @Permission("simplychat.command.dev")
     public void reset(Player sender) {
         User user = plugin.getUserManager().getUser(sender);
