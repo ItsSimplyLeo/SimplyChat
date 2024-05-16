@@ -1,4 +1,4 @@
-name: NexusPrison
+name: SimplyChat
 version: '${version}'
 api-version: '1.20.6'
 main: cx.leo.simplychat.SimplyChatPlugin
