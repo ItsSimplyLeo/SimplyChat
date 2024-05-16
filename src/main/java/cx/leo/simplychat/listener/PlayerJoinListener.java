@@ -1,6 +1,6 @@
 package cx.leo.simplychat.listener;
 
-import cx.leo.simplychat.SimplyChat;
+import cx.leo.simplychat.SimplyChatPlugin;
 import cx.leo.simplychat.data.DataManager;
 import cx.leo.simplychat.user.User;
 import cx.leo.simplychat.user.UserManager;
@@ -12,9 +12,9 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 public class PlayerJoinListener implements Listener {
 
-    private final SimplyChat plugin;
+    private final SimplyChatPlugin plugin;
 
-    public PlayerJoinListener(SimplyChat plugin) {
+    public PlayerJoinListener(SimplyChatPlugin plugin) {
         this.plugin = plugin;
     }
 

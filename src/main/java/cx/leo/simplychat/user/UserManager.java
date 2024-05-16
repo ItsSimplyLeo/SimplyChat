@@ -1,21 +1,20 @@
 package cx.leo.simplychat.user;
 
-import cx.leo.simplychat.SimplyChat;
+import cx.leo.simplychat.SimplyChatPlugin;
 import cx.leo.simplychat.data.DataManager;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.UUID;
 
 public class UserManager {
 
-    private final SimplyChat plugin;
+    private final SimplyChatPlugin plugin;
     private final HashMap<UUID, User> users;
 
-    public UserManager(SimplyChat plugin) {
+    public UserManager(SimplyChatPlugin plugin) {
         this.plugin = plugin;
         this.users = new HashMap<>();
     }
