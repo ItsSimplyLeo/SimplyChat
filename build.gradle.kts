@@ -43,7 +43,7 @@ tasks {
             "version" to project.version,
         )
         inputs.properties(props)
-        filesMatching("plugin.yml") {
+        filesMatching("paper-plugin.yml") {
             expand(props)
         }
     }
