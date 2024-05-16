@@ -47,10 +47,10 @@ public class ChatListener implements Listener, ChatRenderer {
         User user = userManager.getUser(source);
 
         displayName = user.getNicknameStyle().apply(source.getName());
-        message = userManager.getUser(source).getChatStyle().apply(rawMessage);
+        //message = userManager.getUser(source).getChatStyle().apply(rawMessage);
         message = handleShowItem(config, source, message);
 
-        return format.parse(source, displayName, message, viewer);
+        return format.parse(user, source, displayName, message, viewer);
     }
 
     private Component handleShowItem(FileConfiguration config, Player source, Component message) {

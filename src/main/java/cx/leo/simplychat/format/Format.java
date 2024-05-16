@@ -1,5 +1,6 @@
 package cx.leo.simplychat.format;
 
+import cx.leo.simplychat.user.User;
 import cx.leo.simplychat.utils.ComponentUtils;
 import cx.leo.simplychat.utils.PlaceholderUtil;
 import net.kyori.adventure.audience.Audience;
@@ -74,7 +75,7 @@ public class Format {
         );
     }
 
-    public Component parse(Player source, Component displayName, Component message, Audience viewer) {
+    public Component parse(User user, Player source, Component displayName, Component message, Audience viewer) {
         if (viewer instanceof Player player) {
             String playerName = player.getName();
             if (PlainTextComponentSerializer.plainText().serialize(message).toLowerCase().contains(playerName.toLowerCase())) {
@@ -87,8 +88,10 @@ public class Format {
 
         return ComponentUtils.miniCommon().deserialize(
                 PlaceholderUtil.parse(source, content),
-                Placeholder.component("name", displayName),
+                //Placeholder.component("name", displayName),
                 ComponentUtils.playerTags(source),
+                Placeholder.component("styled_name", user.getNicknameStyle().apply(source.getName())),
+                Placeholder.component("styled_message", user.getChatStyle().apply(PlainTextComponentSerializer.plainText().serialize(message))),
                 Placeholder.component("message", message),
                 TagResolver.resolver("action", (queue, context) -> getChatResolver(queue, source))
         );
