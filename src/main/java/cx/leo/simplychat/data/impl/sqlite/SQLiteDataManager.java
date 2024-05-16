@@ -5,12 +5,17 @@ import cx.leo.simplychat.data.DataManager;
 import cx.leo.simplychat.style.StyleManager;
 import cx.leo.simplychat.user.ChatUser;
 import cx.leo.simplychat.user.User;
+import org.bukkit.Bukkit;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
 import java.sql.*;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
 import java.util.logging.Level;
 
 public class SQLiteDataManager implements DataManager {
@@ -106,7 +111,8 @@ public class SQLiteDataManager implements DataManager {
     }
 
     @Override
-    public @Nullable User loadUser(UUID uuid) {
+    public @NotNull CompletableFuture<Optional<User>> loadUser(UUID uuid) {
+        CompletableFuture<Optional<User>> completableFuture = new CompletableFuture<>();
         Connection connection = getSQLConnection();
         PreparedStatement statement = null;
         ResultSet result;
@@ -123,7 +129,8 @@ public class SQLiteDataManager implements DataManager {
                     user.setNicknameStyle(styleManager.getStyle(result.getString("nickname_style")));
                     user.setChatStyle(styleManager.getStyle(result.getString("chat_style")));
 
-                    return user;
+                    completableFuture.complete(Optional.of(user));
+                    return completableFuture;
                 }
             }
         } catch (SQLException e) {
@@ -137,7 +144,8 @@ public class SQLiteDataManager implements DataManager {
             }
         }
 
-        return null;
+        completableFuture.complete(Optional.empty());
+        return completableFuture;
     }
 
     @Override
