@@ -7,6 +7,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.incendo.cloud.annotation.specifier.Greedy;
 import org.incendo.cloud.annotations.Argument;
 import org.incendo.cloud.annotations.Command;
 import org.incendo.cloud.annotations.CommandDescription;
@@ -31,7 +32,7 @@ public class ChatCommands {
         sender.sendMessage(Component.text("SimplyChat has been reloaded!", NamedTextColor.AQUA));
     }
 
-    @Command(COMMAND_PREFIX + " style list")
+    @Command(COMMAND_PREFIX + " style current")
     @Permission("simplychat.command.dev")
     public void devViewStyles(Player sender) {
         User user = plugin.getUserManager().getUser(sender);
@@ -47,7 +48,7 @@ public class ChatCommands {
         Style chat = user.getChatStyle();
 
         component = component.append(
-                Component.text("<b>" + sender.getName())
+                Component.text(sender.getName())
                         .append(Component.newline())
                         .append(Component.text("Nickname (" + nickname.getId() + "): " ).append(nickname.apply("THIS IS A TEST MESSAGE")))
                         .append(Component.newline())
@@ -57,13 +58,24 @@ public class ChatCommands {
         sender.sendMessage(component);
     }
 
-    @Command(COMMAND_PREFIX + " style test <style>")
+    @Command(COMMAND_PREFIX + " style update nickname <style>")
     @Permission("simplychat.command.dev")
     public void devTest(Player sender, @NotNull @Argument("style") String styleName) {
         User user = plugin.getUserManager().getUser(sender);
         Style style = plugin.getStyleManager().getStyle(styleName);
 
         user.setNicknameStyle(style);
+        sender.sendMessage("style updated");
+
+        plugin.getDataManager().updateUser(user);
+    }
+
+    @Command(COMMAND_PREFIX + " style update chat <style>")
+    @Permission("simplychat.command.dev")
+    public void styleUpdateChat(Player sender, @NotNull @Argument("style") String styleName) {
+        User user = plugin.getUserManager().getUser(sender);
+        Style style = plugin.getStyleManager().getStyle(styleName);
+
         user.setChatStyle(style);
         sender.sendMessage("style updated");
 
@@ -80,5 +92,12 @@ public class ChatCommands {
         sender.sendMessage("style updated");
 
         plugin.getDataManager().updateUser(user);
+    }
+
+    @Command(COMMAND_PREFIX + " style test <style> <content>")
+    @Permission("simplychat.command.dev")
+    public void styleTest(Player sender, @NotNull @Argument("style") String styleName, @NotNull @Greedy @Argument("content") String content) {
+        Style style = plugin.getStyleManager().getStyle(styleName);
+        sender.sendMessage(Component.text("Viewing Style: " + style.getId()).append(Component.newline()).append(style.apply(content)));
     }
 }
