@@ -12,6 +12,7 @@ import org.incendo.cloud.annotations.Argument;
 import org.incendo.cloud.annotations.Command;
 import org.incendo.cloud.annotations.CommandDescription;
 import org.incendo.cloud.annotations.Permission;
+import org.incendo.cloud.annotations.suggestion.Suggestions;
 import org.jetbrains.annotations.NotNull;
 
 public class ChatCommands {
@@ -60,9 +61,8 @@ public class ChatCommands {
 
     @Command(COMMAND_PREFIX + " style update nickname <style>")
     @Permission("simplychat.command.dev")
-    public void devTest(Player sender, @NotNull @Argument("style") String styleName) {
+    public void devTest(Player sender, @NotNull @Argument("style") Style style) {
         User user = plugin.getUserManager().getUser(sender);
-        Style style = plugin.getStyleManager().getStyle(styleName);
 
         user.setNicknameStyle(style);
         sender.sendMessage("style updated");
@@ -72,9 +72,8 @@ public class ChatCommands {
 
     @Command(COMMAND_PREFIX + " style update chat <style>")
     @Permission("simplychat.command.dev")
-    public void styleUpdateChat(Player sender, @NotNull @Argument("style") String styleName) {
+    public void styleUpdateChat(Player sender, @NotNull @Argument("style") Style style) {
         User user = plugin.getUserManager().getUser(sender);
-        Style style = plugin.getStyleManager().getStyle(styleName);
 
         user.setChatStyle(style);
         sender.sendMessage("style updated");
@@ -96,8 +95,7 @@ public class ChatCommands {
 
     @Command(COMMAND_PREFIX + " style test <style> <content>")
     @Permission("simplychat.command.dev")
-    public void styleTest(Player sender, @NotNull @Argument("style") String styleName, @NotNull @Greedy @Argument("content") String content) {
-        Style style = plugin.getStyleManager().getStyle(styleName);
+    public void styleTest(Player sender, @NotNull @Argument("style") Style style, @NotNull @Greedy @Argument("content") String content) {
         sender.sendMessage(Component.text("Viewing Style: " + style.getId()).append(Component.newline()).append(style.apply(content)));
     }
 }
