@@ -1,20 +1,19 @@
 package cx.leo.simplychat.style;
 
-import cx.leo.simplychat.SimplyChat;
+import cx.leo.simplychat.SimplyChatPlugin;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.List;
 
 public class StyleManager {
 
-    private final SimplyChat plugin;
+    private final SimplyChatPlugin plugin;
     private final HashMap<String, Style> styles;
 
-    public StyleManager(SimplyChat plugin) {
+    public StyleManager(SimplyChatPlugin plugin) {
         this.plugin = plugin;
         this.styles = new HashMap<>();
 

@@ -1,0 +1,17 @@
+name: NexusPrison
+version: '${version}'
+api-version: '1.20.6'
+main: cx.leo.simplychat.SimplyChatPlugin
+bootstrapper: cx.leo.simplychat.bootstrap.SimplyChatBootstrap
+description: 'Modern chat plugin utilizing latest Paper-API.'
+authors: [ItsSimplyLeo]
+website: 'https://github.com/ItsSimplyLeo/SimplyChat'
+
+dependencies:
+  server:
+    PlaceholderAPI:
+      load: BEFORE
+      required: true
+    Vault:
+      load: BEFORE
+      required: true

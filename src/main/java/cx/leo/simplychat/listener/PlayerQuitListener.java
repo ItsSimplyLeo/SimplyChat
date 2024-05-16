@@ -1,6 +1,6 @@
 package cx.leo.simplychat.listener;
 
-import cx.leo.simplychat.SimplyChat;
+import cx.leo.simplychat.SimplyChatPlugin;
 import cx.leo.simplychat.user.UserManager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -8,9 +8,9 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class PlayerQuitListener implements Listener {
 
-    private final SimplyChat plugin;
+    private final SimplyChatPlugin plugin;
 
-    public PlayerQuitListener(SimplyChat plugin) {
+    public PlayerQuitListener(SimplyChatPlugin plugin) {
         this.plugin = plugin;
     }
 

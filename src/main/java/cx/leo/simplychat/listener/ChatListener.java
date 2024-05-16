@@ -1,6 +1,6 @@
 package cx.leo.simplychat.listener;
 
-import cx.leo.simplychat.SimplyChat;
+import cx.leo.simplychat.SimplyChatPlugin;
 import cx.leo.simplychat.format.Format;
 import cx.leo.simplychat.user.User;
 import cx.leo.simplychat.user.UserManager;
@@ -24,10 +24,10 @@ import org.jetbrains.annotations.NotNull;
 
 public class ChatListener implements Listener, ChatRenderer {
 
-    private final SimplyChat plugin;
+    private final SimplyChatPlugin plugin;
     private final UserManager userManager;
 
-    public ChatListener(SimplyChat plugin) {
+    public ChatListener(SimplyChatPlugin plugin) {
         this.plugin = plugin;
         this.userManager = plugin.getUserManager();
     }

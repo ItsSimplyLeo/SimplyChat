@@ -4,7 +4,7 @@ import cloud.commandframework.annotations.Argument;
 import cloud.commandframework.annotations.CommandDescription;
 import cloud.commandframework.annotations.CommandMethod;
 import cloud.commandframework.annotations.CommandPermission;
-import cx.leo.simplychat.SimplyChat;
+import cx.leo.simplychat.SimplyChatPlugin;
 import cx.leo.simplychat.style.Style;
 import cx.leo.simplychat.user.User;
 import net.kyori.adventure.text.Component;
@@ -15,9 +15,9 @@ import org.jetbrains.annotations.NotNull;
 
 public class ChatCommand {
 
-    private final SimplyChat plugin;
+    private final SimplyChatPlugin plugin;
 
-    public ChatCommand(SimplyChat plugin) {
+    public ChatCommand(SimplyChatPlugin plugin) {
         this.plugin = plugin;
     }
 

@@ -10,7 +10,7 @@ import cloud.commandframework.execution.AsynchronousCommandExecutionCoordinator;
 import cloud.commandframework.execution.CommandExecutionCoordinator;
 import cloud.commandframework.meta.CommandMeta;
 import cloud.commandframework.paper.PaperCommandManager;
-import cx.leo.simplychat.SimplyChat;
+import cx.leo.simplychat.SimplyChatPlugin;
 import org.bukkit.command.CommandSender;
 
 import java.util.function.Function;
@@ -20,7 +20,7 @@ public class ChatCommandManager {
     private AnnotationParser<CommandSender> annotationParser;
     private BukkitCommandManager<CommandSender> commandManager;
 
-    public ChatCommandManager(SimplyChat plugin) {
+    public ChatCommandManager(SimplyChatPlugin plugin) {
 
         final Function<CommandTree<CommandSender>, CommandExecutionCoordinator<CommandSender>> executionCoordinatorFunction =
                 AsynchronousCommandExecutionCoordinator.<CommandSender>builder().build();

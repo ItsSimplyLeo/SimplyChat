@@ -1,19 +1,16 @@
 package cx.leo.simplychat.data.impl.sqlite;
 
-import cx.leo.simplychat.SimplyChat;
+import cx.leo.simplychat.SimplyChatPlugin;
 import cx.leo.simplychat.data.DataManager;
 import cx.leo.simplychat.style.StyleManager;
 import cx.leo.simplychat.user.ChatUser;
 import cx.leo.simplychat.user.User;
-import org.bukkit.Bukkit;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
 import java.sql.*;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Future;
 import java.util.logging.Level;
 
 public class SQLiteDataManager implements DataManager {
@@ -25,10 +22,10 @@ public class SQLiteDataManager implements DataManager {
             "PRIMARY KEY (`uuid`)" +
             ");";
 
-    private final SimplyChat plugin;
+    private final SimplyChatPlugin plugin;
     private Connection connection;
 
-    public SQLiteDataManager(SimplyChat plugin) {
+    public SQLiteDataManager(SimplyChatPlugin plugin) {
         this.plugin = plugin;
         this.init();
     }

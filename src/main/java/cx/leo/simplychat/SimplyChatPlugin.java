@@ -17,9 +17,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-public class SimplyChat extends JavaPlugin {
+public class SimplyChatPlugin extends JavaPlugin {
 
-    private static SimplyChat instance;
+    private static SimplyChatPlugin instance;
 
     private ChatCommandManager commandManager;
     private ConfigManager configManager;
@@ -87,7 +87,7 @@ public class SimplyChat extends JavaPlugin {
         return userManager;
     }
 
-    public static SimplyChat getInstance() {
+    public static SimplyChatPlugin getInstance() {
         return instance;
     }
 

@@ -1,6 +1,6 @@
 package cx.leo.simplychat.config;
 
-import cx.leo.simplychat.SimplyChat;
+import cx.leo.simplychat.SimplyChatPlugin;
 
 public class ConfigManager {
 
@@ -8,7 +8,7 @@ public class ConfigManager {
     private final Config formatConfig;
     private final Config stylesConfig;
 
-    public ConfigManager(SimplyChat plugin) {
+    public ConfigManager(SimplyChatPlugin plugin) {
         this.mainConfig = new Config(plugin, "config");
         this.formatConfig = new Config(plugin, "formats");
         this.stylesConfig = new Config(plugin, "styles");
