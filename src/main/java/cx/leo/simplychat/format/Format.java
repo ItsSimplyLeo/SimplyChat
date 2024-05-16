@@ -90,7 +90,7 @@ public class Format {
                 Placeholder.component("name", displayName),
                 ComponentUtils.playerTags(source),
                 Placeholder.component("message", message),
-                TagResolver.resolver("chat", (queue, context) -> getChatResolver(queue, source))
+                TagResolver.resolver("action", (queue, context) -> getChatResolver(queue, source))
         );
     }
 
