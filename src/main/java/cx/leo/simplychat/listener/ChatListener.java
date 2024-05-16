@@ -40,22 +40,20 @@ public class ChatListener implements Listener, ChatRenderer {
     @Override
     public @NotNull Component render(@NotNull Player source, @NotNull Component displayName, @NotNull Component message, @NotNull Audience viewer) {
         Format format = plugin.getFormatManager().getFormat(VaultUtil.getPrimaryGroup(source));
-
-        FileConfiguration config = plugin.getConfig();
         String rawMessage = PlainTextComponentSerializer.plainText().serialize(message);
 
         User user = userManager.getUser(source);
 
         displayName = user.getNicknameStyle().apply(source.getName());
         //message = userManager.getUser(source).getChatStyle().apply(rawMessage);
-        message = handleShowItem(config, source, message);
+        Component finalComponent = format.parse(this, user, source, displayName, message, viewer);
+        //message = handleShowItem(config, source, message);
 
-        return format.parse(user, source, displayName, message, viewer);
+        return finalComponent;
     }
 
-    private Component handleShowItem(FileConfiguration config, Player source, Component message) {
-        String plainMessage = PlainTextComponentSerializer.plainText().serialize(message);
-
+    public Component handleShowItem(Player source, Component messageComponent, String plainMessage) {
+        FileConfiguration config = plugin.getConfig();
         if (config.getBoolean("item-hover.enabled", false) && source.hasPermission("simplychat.showitem")) {
             for (String replacement : config.getStringList("item-hover.replacements")) {
                 if (plainMessage.contains(replacement)) {
@@ -86,11 +84,11 @@ public class ChatListener implements Listener, ChatRenderer {
                         ).hoverEvent(itemStack);
                     }
 
-                    message = message.replaceText(TextReplacementConfig.builder().matchLiteral(replacement).replacement(itemComponent).once().build());
+                    messageComponent = messageComponent.replaceText(TextReplacementConfig.builder().matchLiteral(replacement).replacement(itemComponent).once().build());
                     break;
                 }
             }
         }
-        return message;
+        return messageComponent;
     }
 }

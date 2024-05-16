@@ -1,5 +1,6 @@
 package cx.leo.simplychat.format;
 
+import cx.leo.simplychat.listener.ChatListener;
 import cx.leo.simplychat.user.User;
 import cx.leo.simplychat.utils.ComponentUtils;
 import cx.leo.simplychat.utils.PlaceholderUtil;
@@ -75,26 +76,33 @@ public class Format {
         );
     }
 
-    public Component parse(User user, Player source, Component displayName, Component message, Audience viewer) {
-        if (viewer instanceof Player player) {
-            String playerName = player.getName();
-            if (PlainTextComponentSerializer.plainText().serialize(message).toLowerCase().contains(playerName.toLowerCase())) {
-
-                message = message.replaceText(content -> content.matchLiteral(player.getName()).replacement(Component.text("@" + player.getName(), NamedTextColor.YELLOW)).once());
-
-                player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 0.5f);
-            }
-        }
-
+    public Component parse(ChatListener listener, User user, Player source, Component displayName, Component message, Audience viewer) {
         return ComponentUtils.miniCommon().deserialize(
                 PlaceholderUtil.parse(source, content),
                 //Placeholder.component("name", displayName),
                 ComponentUtils.playerTags(source),
                 Placeholder.component("styled_name", user.getNicknameStyle().apply(source.getName())),
-                Placeholder.component("styled_message", user.getChatStyle().apply(PlainTextComponentSerializer.plainText().serialize(message))),
-                Placeholder.component("message", message),
+                Placeholder.component("styled_message", handleExtras(listener, source, user.getChatStyle().apply(PlainTextComponentSerializer.plainText().serialize(message)), viewer)),
+                Placeholder.component("message", handleExtras(listener, source, message, viewer)),
                 TagResolver.resolver("action", (queue, context) -> getChatResolver(queue, source))
         );
+    }
+
+    private Component handleExtras(ChatListener listener, Player source, Component message, Audience viewer) {
+        String messageString = PlainTextComponentSerializer.plainText().serialize(message);
+        source.sendMessage("trying to plain: " + messageString);
+        if (viewer instanceof Player player) {
+            String playerName = player.getName();
+            if (messageString.toLowerCase().contains(playerName.toLowerCase())) {
+                message = message.replaceText(content -> content.matchLiteral(player.getName())
+                        .replacement(ComponentUtils.miniCommon().deserialize("<yellow>@<player></yellow>", Placeholder.unparsed("player", playerName)))
+                        .once());
+                player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 0.5f);
+            }
+
+            message = listener.handleShowItem(source, message, messageString);
+        }
+        return message;
     }
 
 }
