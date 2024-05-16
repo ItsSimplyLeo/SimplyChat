@@ -1,6 +1,6 @@
 name: SimplyChat
-version: 1.0.0
-api-version: 1.19
+version: '${version}'
+api-version: 1.20
 main: cx.leo.simplychat.SimplyChat
 description: "Modern Chat plugin utilizing the PaperAPI and MiniMessage features with easy configuration."
 authors: ['ItsSimplyLeo']
@@ -8,3 +8,4 @@ website: "https://github.com/ItsSimplyLeo/SimplyChat"
 
 softdepend:
   - 'Vault'
+  - 'PlaceholderAPI'
