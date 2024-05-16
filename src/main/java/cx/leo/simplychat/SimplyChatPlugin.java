@@ -1,6 +1,6 @@
 package cx.leo.simplychat;
 
-import cx.leo.simplychat.commands.ChatCommand;
+import cx.leo.simplychat.commands.ChatCommands;
 import cx.leo.simplychat.commands.ChatCommandManager;
 import cx.leo.simplychat.config.ConfigManager;
 import cx.leo.simplychat.data.DataManager;
@@ -43,7 +43,7 @@ public class SimplyChatPlugin extends JavaPlugin {
         this.registerEvent(new PlayerJoinListener(this));
         this.registerEvent(new PlayerQuitListener(this));
 
-        this.commandManager.parse(new ChatCommand(this));
+        this.commandManager.parse(new ChatCommands(this));
 
         instance = this;
     }

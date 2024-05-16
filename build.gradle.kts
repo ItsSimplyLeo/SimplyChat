@@ -7,10 +7,13 @@ plugins {
 group = "cx.leo.simplychat"
 version = "1.0.0-SNAPSHOT"
 
+var cloudVersion: String = "2.0.0-beta.7" // For Minecraft Impl
+var cloudRcVersion: String = "2.0.0-rc.1" // For Cloud
+
 repositories {
     mavenCentral()
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
-    maven("https://ci.ender.zone/plugin/repository/everything/")
+    maven("https://ci.ender.zone/plugin/repository/everything/") // Vault
 }
 
 dependencies {
@@ -18,9 +21,9 @@ dependencies {
     paperweight.paperDevBundle("1.20.6-R0.1-SNAPSHOT")
 
     // Cloud Command
-    implementation("cloud.commandframework", "cloud-paper", "1.8.0")
-    implementation("cloud.commandframework", "cloud-annotations", "1.8.0")
-    implementation("cloud.commandframework", "cloud-minecraft-extras", "1.8.0")
+    implementation("org.incendo", "cloud-paper", cloudVersion)
+    implementation("org.incendo", "cloud-annotations", cloudRcVersion)
+    implementation("org.incendo", "cloud-minecraft-extras", cloudVersion)
 
     // PlaceholderAPI
     compileOnly("me.clip:placeholderapi:2.11.5")
