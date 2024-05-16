@@ -11,6 +11,13 @@ public interface Style {
     String getId();
 
     /**
+     * Get colors for the style.
+     *
+     * @return an array of the colors for the style
+     */
+    String[] getColors();
+
+    /**
      *
      * @return Whether the style should be bold
      */

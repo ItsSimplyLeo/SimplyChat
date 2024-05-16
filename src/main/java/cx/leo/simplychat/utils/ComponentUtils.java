@@ -1,5 +1,6 @@
 package cx.leo.simplychat.utils;
 
+import cx.leo.simplychat.text.minimessage.StyleGradientTag;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
@@ -22,7 +23,8 @@ public class ComponentUtils {
     private final static MiniMessage MINI_COMMON = MiniMessage.builder()
             .tags(TagResolver.resolver(
                     TagResolver.standard(),
-                    TagResolver.resolver("weblink", ComponentUtils::weblink)
+                    TagResolver.resolver("weblink", ComponentUtils::weblink),
+                    StyleGradientTag.RESOLVER
             ))
             .build();
 
@@ -54,5 +56,4 @@ public class ComponentUtils {
                 Placeholder.parsed("suffix", VaultUtil.getPlayerSuffix(player))
         ));
     }
-
 }

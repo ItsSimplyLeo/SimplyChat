@@ -25,6 +25,11 @@ public class StyleImpl implements Style {
     }
 
     @Override
+    public String[] getColors() {
+        return colors;
+    }
+
+    @Override
     public boolean bold() {
         return false;
     }
