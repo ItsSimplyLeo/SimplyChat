@@ -90,7 +90,6 @@ public class Format {
 
     private Component handleExtras(ChatListener listener, Player source, Component message, Audience viewer) {
         String messageString = PlainTextComponentSerializer.plainText().serialize(message);
-        source.sendMessage("trying to plain: " + messageString);
         if (viewer instanceof Player player) {
             String playerName = player.getName();
             if (messageString.toLowerCase().contains(playerName.toLowerCase())) {
