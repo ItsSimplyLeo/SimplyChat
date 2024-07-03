@@ -15,7 +15,7 @@ import org.incendo.cloud.parser.ParserDescriptor;
 public class ChatCommandManager {
 
     private AnnotationParser<CommandSender> annotationParser;
-    private BukkitCommandManager<CommandSender> commandManager;
+    private LegacyPaperCommandManager<CommandSender> commandManager;
 
     public ChatCommandManager(SimplyChatPlugin plugin) {
         try {
