@@ -7,8 +7,8 @@ plugins {
 group = "cx.leo.simplychat"
 version = "1.0.0-SNAPSHOT"
 
-var cloudVersion: String = "2.0.0-beta.7" // For Minecraft Impl
-var cloudRcVersion: String = "2.0.0-rc.1" // For Cloud
+var cloudVersion: String = "2.0.0-SNAPSHOT" // For Minecraft Impl
+var cloudRcVersion: String = "2.0.0-rc.2" // For Cloud
 
 repositories {
     mavenCentral()

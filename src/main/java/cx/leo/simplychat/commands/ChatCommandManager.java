@@ -9,7 +9,7 @@ import org.incendo.cloud.annotations.AnnotationParser;
 import org.incendo.cloud.bukkit.BukkitCommandManager;
 import org.incendo.cloud.bukkit.CloudBukkitCapabilities;
 import org.incendo.cloud.execution.ExecutionCoordinator;
-import org.incendo.cloud.paper.PaperCommandManager;
+import org.incendo.cloud.paper.LegacyPaperCommandManager;
 import org.incendo.cloud.parser.ParserDescriptor;
 
 public class ChatCommandManager {
@@ -19,7 +19,7 @@ public class ChatCommandManager {
 
     public ChatCommandManager(SimplyChatPlugin plugin) {
         try {
-            commandManager = new PaperCommandManager<>(
+            commandManager = new LegacyPaperCommandManager<>(
                     plugin,
                     ExecutionCoordinator.simpleCoordinator(),
                     SenderMapper.identity()
@@ -41,7 +41,7 @@ public class ChatCommandManager {
         // Register asynchronous completions
         //
         if (this.commandManager.hasCapability(CloudBukkitCapabilities.ASYNCHRONOUS_COMPLETION)) {
-            ((PaperCommandManager<CommandSender>) commandManager).registerAsynchronousCompletions();
+            ((LegacyPaperCommandManager<CommandSender>) commandManager).registerAsynchronousCompletions();
         }
 
         this.annotationParser = new AnnotationParser<>(
