@@ -37,13 +37,6 @@ public class ChatCommandManager {
             this.commandManager.registerBrigadier();
         }
 
-        //
-        // Register asynchronous completions
-        //
-        if (this.commandManager.hasCapability(CloudBukkitCapabilities.ASYNCHRONOUS_COMPLETION)) {
-            ((LegacyPaperCommandManager<CommandSender>) commandManager).registerAsynchronousCompletions();
-        }
-
         this.annotationParser = new AnnotationParser<>(
                 /* Manager */ commandManager,
                 /* Command sender type */ CommandSender.class
@@ -52,7 +45,7 @@ public class ChatCommandManager {
         this.commandManager.parserRegistry().registerParser(ParserDescriptor.of(new StyleCommandArgument<>(plugin), Style.class));
     }
 
-    public BukkitCommandManager<CommandSender> getPaperCommandManager() {
+    public LegacyPaperCommandManager<CommandSender> getPaperCommandManager() {
         return commandManager;
     }
 
