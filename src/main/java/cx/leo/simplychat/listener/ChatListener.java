@@ -1,5 +1,6 @@
 package cx.leo.simplychat.listener;
 
+import cx.leo.simplychat.ChatManager;
 import cx.leo.simplychat.SimplyChatPlugin;
 import cx.leo.simplychat.format.Format;
 import cx.leo.simplychat.user.User;
@@ -25,15 +26,34 @@ import org.jetbrains.annotations.NotNull;
 public class ChatListener implements Listener, ChatRenderer {
 
     private final SimplyChatPlugin plugin;
+    private final ChatManager chatManager;
     private final UserManager userManager;
 
     public ChatListener(SimplyChatPlugin plugin) {
         this.plugin = plugin;
+        this.chatManager = plugin.getChatManager();
         this.userManager = plugin.getUserManager();
     }
 
     @EventHandler
-    public void onChat(AsyncChatEvent event) {
+    public void onChat(@NotNull AsyncChatEvent event) {
+        final Player player = event.getPlayer();
+        if (chatManager.chatMuted() && !player.hasPermission("simplychat.bypass.mute")) {
+            event.getPlayer().sendMessage(ComponentUtils.miniCommon().deserialize(plugin.getConfig().getString("messages.chat-muted", "<red>Chat is currently locked!")));
+            event.setCancelled(true);
+        }
+
+        if (chatManager.slowModeEnabled() && !player.hasPermission("simplychat.bypass.slowmode")) {
+            long lastChatTime = chatManager.getSlowModeMap().getOrDefault(player.getUniqueId(), 0L);
+            long currentTime = System.currentTimeMillis();
+            if (currentTime - lastChatTime < chatManager.slowModeTime()) {
+                player.sendMessage(ComponentUtils.miniCommon().deserialize(plugin.getConfig().getString("messages.slow-mode", "<yellow>Please wait before sending another message!")));
+                event.setCancelled(true);
+                return;
+            }
+            chatManager.getSlowModeMap().put(player.getUniqueId(), currentTime);
+        }
+
         event.renderer(this);
     }
 

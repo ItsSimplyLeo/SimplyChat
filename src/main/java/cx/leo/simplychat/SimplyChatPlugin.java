@@ -22,6 +22,7 @@ public class SimplyChatPlugin extends JavaPlugin {
 
     private ChatCommandManager commandManager;
     private ConfigManager configManager;
+    private ChatManager chatManager;
     private FormatManager formatManager;
     private StyleManager styleManager;
     private DataManager dataManager;
@@ -33,6 +34,7 @@ public class SimplyChatPlugin extends JavaPlugin {
 
         this.commandManager = new ChatCommandManager(this);
         this.configManager = new ConfigManager(this);
+        this.chatManager = new ChatManager();
         this.formatManager = new FormatManager(this);
         this.styleManager = new StyleManager(this);
         this.dataManager = new SQLiteDataManager(this); // TODO Implement multiple ways to store data.
@@ -67,6 +69,10 @@ public class SimplyChatPlugin extends JavaPlugin {
 
     public ConfigManager getConfigManager() {
         return configManager;
+    }
+
+    public ChatManager getChatManager() {
+        return chatManager;
     }
 
     public FormatManager getFormatManager() {
