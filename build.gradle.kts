@@ -1,14 +1,14 @@
 plugins {
     id("java")
-    id("io.github.goooler.shadow") version "8.1.7"
-    id("io.papermc.paperweight.userdev") version "1.7.1"
+    id("com.gradleup.shadow") version "8.3.7"
+    id("io.papermc.paperweight.userdev") version "2.0.0-beta.17"
 }
 
 group = "cx.leo.simplychat"
 version = "1.0.0-SNAPSHOT"
 
-var cloudVersion: String = "2.0.0-SNAPSHOT" // For Minecraft Impl
-var cloudRcVersion: String = "2.0.0-rc.2" // For Cloud
+var cloudVersion: String = "2.0.0-beta.10" // For Minecraft Impl
+var cloudRcVersion: String = "2.0.0" // For Cloud
 
 repositories {
     mavenCentral()
@@ -18,7 +18,7 @@ repositories {
 
 dependencies {
     // PaperMC-API
-    paperweight.paperDevBundle("1.20.6-R0.1-SNAPSHOT")
+    paperweight.paperDevBundle("1.21.6-R0.1-SNAPSHOT")
 
     // Cloud Command
     implementation("org.incendo", "cloud-paper", cloudVersion)
