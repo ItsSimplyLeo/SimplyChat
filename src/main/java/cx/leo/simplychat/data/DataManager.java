@@ -18,5 +18,5 @@ public interface DataManager {
 
     CompletableFuture<Optional<User>> loadUser(UUID uuid);
 
-    void updateUser(User user);
+    CompletableFuture<Void> updateUser(User user);
 }

@@ -60,16 +60,10 @@ public class ChatListener implements Listener, ChatRenderer {
     @Override
     public @NotNull Component render(@NotNull Player source, @NotNull Component displayName, @NotNull Component message, @NotNull Audience viewer) {
         Format format = plugin.getFormatManager().getFormat(VaultUtil.getPrimaryGroup(source));
-        String rawMessage = PlainTextComponentSerializer.plainText().serialize(message);
 
         User user = userManager.getUser(source);
-
         displayName = user.getNicknameStyle().apply(source.getName());
-        //message = userManager.getUser(source).getChatStyle().apply(rawMessage);
-        Component finalComponent = format.parse(this, user, source, displayName, message, viewer);
-        //message = handleShowItem(config, source, message);
-
-        return finalComponent;
+        return format.parse(this, user, source, displayName, message, viewer);
     }
 
     public Component handleShowItem(Player source, Component messageComponent, String plainMessage) {

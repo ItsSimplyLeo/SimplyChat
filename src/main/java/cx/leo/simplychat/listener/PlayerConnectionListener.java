@@ -4,7 +4,6 @@ import cx.leo.simplychat.SimplyChatPlugin;
 import cx.leo.simplychat.data.DataManager;
 import cx.leo.simplychat.user.User;
 import cx.leo.simplychat.user.UserManager;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,38 +11,33 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
 
 public class PlayerConnectionListener implements Listener {
 
     private final SimplyChatPlugin plugin;
 
-    public PlayerConnectionListener(SimplyChatPlugin plugin) {
+    public PlayerConnectionListener(final SimplyChatPlugin plugin) {
         this.plugin = plugin;
     }
 
     @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
-        UserManager userManager = plugin.getUserManager();
-        DataManager dataManager = plugin.getDataManager();
+    public void onPlayerJoin(final PlayerJoinEvent event) {
+        final Player player = event.getPlayer();
+        final UserManager userManager = plugin.getUserManager();
+        final DataManager dataManager = plugin.getDataManager();
 
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            CompletableFuture<Optional<User>> userFuture = dataManager.loadUser(player.getUniqueId());
-            userFuture.whenComplete((optionalUser, throwable) -> {
-                if (optionalUser.isPresent()) {
-                    userManager.register(optionalUser.get());
-                } else {
-                    dataManager.updateUser(userManager.createUser(player));
+        dataManager.loadUser(player.getUniqueId()).thenAccept(optionalUser -> optionalUser.ifPresentOrElse(userManager::register,
+                () -> {
+                    User newUser = userManager.createUser(player);
+                    dataManager.updateUser(newUser);
                 }
-            });
-        });
+        ));
     }
 
     @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent event) {
-        UserManager userManager = plugin.getUserManager();
-        userManager.updateUser(userManager.getUser(event.getPlayer()));
+    public void onPlayerQuit(final PlayerQuitEvent event) {
+        final UserManager userManager = plugin.getUserManager();
+        final User user = userManager.getUser(event.getPlayer());
+        userManager.updateUser(user);
     }
-
 }
