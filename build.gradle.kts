@@ -1,7 +1,7 @@
 plugins {
     id("java")
-    id("com.gradleup.shadow") version "8.3.7"
-    id("io.papermc.paperweight.userdev") version "2.0.0-beta.17"
+    id("com.gradleup.shadow") version "9.2.2"
+    id("io.papermc.paperweight.userdev") version "2.0.0-beta.19"
 }
 
 group = "cx.leo.simplychat"
@@ -18,7 +18,7 @@ repositories {
 
 dependencies {
     // PaperMC-API
-    paperweight.paperDevBundle("1.21.6-R0.1-SNAPSHOT")
+    paperweight.paperDevBundle("1.21.10-R0.1-SNAPSHOT")
 
     // Cloud Command
     implementation("org.incendo", "cloud-paper", cloudVersion)
