@@ -1,10 +1,10 @@
 formats:
   default:
-    chat: "<prefix><gray><chat:name><name></chat><dark_gray><suffix>:</dark_gray> <message>"
+    chat: "<prefix><gray><action:name><name></action><dark_gray><suffix>:</dark_gray> <message>"
     actions:
       name:
         HOVER_TEXT:
-          - "<aqua><b><username>'s Profile"
+          - "<aqua><b><name>'s Profile"
           - ""
           - "<gray>Nickname: <aqua><nickname>"
           - ""

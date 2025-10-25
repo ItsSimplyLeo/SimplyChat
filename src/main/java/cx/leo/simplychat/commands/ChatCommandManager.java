@@ -29,13 +29,6 @@ public class ChatCommandManager {
             return;
         }
 
-        //
-        // Register Brigadier mappings
-        //
-        if (this.commandManager.hasCapability(CloudBukkitCapabilities.NATIVE_BRIGADIER)) {
-            this.commandManager.registerBrigadier();
-        }
-
         this.annotationParser = new AnnotationParser<>(
                 /* Manager */ commandManager,
                 /* Command sender type */ CommandSender.class

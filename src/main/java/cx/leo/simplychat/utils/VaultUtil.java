@@ -4,6 +4,7 @@ import cx.leo.simplychat.SimplyChatPlugin;
 import net.milkbowl.vault.chat.Chat;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
+import org.jetbrains.annotations.NotNull;
 
 public class VaultUtil {
 
@@ -35,15 +36,18 @@ public class VaultUtil {
         return chat;
     }
 
-    public static String getPrimaryGroup(Player player) {
+    public static String getPrimaryGroup(@NotNull Player player) {
+        if (chat == null) return "";
         return chat.getPrimaryGroup(player);
     }
 
-    public static String getPlayerPrefix(Player player) {
+    public static String getPlayerPrefix(@NotNull Player player) {
+        if (chat == null) return "";
         return chat.getPlayerPrefix(player);
     }
 
-    public static String getPlayerSuffix(Player player) {
+    public static String getPlayerSuffix(@NotNull Player player) {
+        if (chat == null) return "";
         return chat.getPlayerSuffix(player);
     }
 }
