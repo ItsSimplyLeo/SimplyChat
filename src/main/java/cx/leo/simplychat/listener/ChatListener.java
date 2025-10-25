@@ -59,7 +59,9 @@ public class ChatListener implements Listener, ChatRenderer {
 
     @Override
     public @NotNull Component render(@NotNull Player source, @NotNull Component displayName, @NotNull Component message, @NotNull Audience viewer) {
-        Format format = plugin.getFormatManager().getFormat(VaultUtil.getPrimaryGroup(source));
+        Format format;
+        if (plugin.isVaultEnabled()) format = plugin.getFormatManager().getFormat(VaultUtil.getPrimaryGroup(source));
+        else format = plugin.getFormatManager().getDefaultFormat();
 
         User user = userManager.getUser(source);
         displayName = user.getNicknameStyle().apply(source.getName());

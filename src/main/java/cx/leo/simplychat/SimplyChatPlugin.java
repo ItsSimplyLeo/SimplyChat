@@ -21,6 +21,7 @@ public class SimplyChatPlugin extends JavaPlugin {
 
     private static SimplyChatPlugin instance;
 
+    private boolean vaultEnabled;
     private ChatCommandManager commandManager;
     private ConfigManager configManager;
     private ChatManager chatManager;
@@ -31,8 +32,7 @@ public class SimplyChatPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        VaultUtil.checkEnabled(this);
-
+        this.vaultEnabled = VaultUtil.checkEnabled(this);
         this.commandManager = new ChatCommandManager(this);
         this.configManager = new ConfigManager(this);
         this.chatManager = new ChatManager();
@@ -59,6 +59,10 @@ public class SimplyChatPlugin extends JavaPlugin {
     public void reload() {
         this.getConfigManager().reloadAll();
         this.formatManager.reload();
+    }
+
+    public boolean isVaultEnabled() {
+        return vaultEnabled;
     }
 
     public void registerEvent(Listener listener) {

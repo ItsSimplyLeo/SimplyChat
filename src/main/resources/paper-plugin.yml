@@ -11,7 +11,7 @@ dependencies:
   server:
     PlaceholderAPI:
       load: BEFORE
-      required: true
+      required: false
     Vault:
       load: BEFORE
-      required: true
+      required: false

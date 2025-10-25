@@ -28,7 +28,7 @@ public class FormatManager {
         return getFormat("default");
     }
 
-    public @NotNull Format getFormat(String formatName) {
+    public @NotNull Format getFormat(@NotNull String formatName) {
         Format format = formats.get(formatName.toLowerCase());
         if (format == null) return formats.getOrDefault("default", defaultFormat);
         return format;
