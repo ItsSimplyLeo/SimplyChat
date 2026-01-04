@@ -28,7 +28,6 @@ public class SimplyChatPlugin extends JavaPlugin implements SimplyChatAPI {
     private boolean vaultEnabled;
     private ChatCommandManager commandManager;
     private ConfigManager configManager;
-    private ChatManager chatManager;
     private FormatManager formatManager;
     private StyleManager styleManager;
     private ChatChannelManager chatChannelManager;
@@ -41,7 +40,6 @@ public class SimplyChatPlugin extends JavaPlugin implements SimplyChatAPI {
         this.vaultEnabled = VaultUtil.checkEnabled(this);
         this.commandManager = new ChatCommandManager(this);
         this.configManager = new ConfigManager(this);
-        this.chatManager = new ChatManager();
         this.formatManager = new FormatManager(this);
         this.styleManager = new StyleManager(this);
         this.chatChannelManager = new ChatChannelManager();
@@ -87,10 +85,6 @@ public class SimplyChatPlugin extends JavaPlugin implements SimplyChatAPI {
 
     public ConfigManager getConfigManager() {
         return configManager;
-    }
-
-    public ChatManager getChatManager() {
-        return chatManager;
     }
 
     public FormatManager getFormatManager() {

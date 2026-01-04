@@ -1,10 +1,9 @@
 package cx.leo.simplychat.listener;
 
-import cx.leo.simplychat.ChatManager;
 import cx.leo.simplychat.SimplyChatPlugin;
+import cx.leo.simplychat.api.channel.ChatChannel;
 import cx.leo.simplychat.format.Format;
 import cx.leo.simplychat.api.user.User;
-import cx.leo.simplychat.user.UserManager;
 import cx.leo.simplychat.utils.ComponentUtils;
 import cx.leo.simplychat.utils.VaultUtil;
 import io.papermc.paper.chat.ChatRenderer;
@@ -22,40 +21,41 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.time.Instant;
 import java.util.List;
 
 @SuppressWarnings("UnstableApiUsage")
 public class PlayerChatListener implements Listener, ChatRenderer {
 
     private final SimplyChatPlugin plugin;
-    private final ChatManager chatManager;
-    private final UserManager userManager;
 
-    public PlayerChatListener(SimplyChatPlugin plugin) {
+    public PlayerChatListener(@NotNull SimplyChatPlugin plugin) {
         this.plugin = plugin;
-        this.chatManager = plugin.getChatManager();
-        this.userManager = plugin.getUserManager();
     }
 
     @EventHandler
     public void onChat(@NotNull AsyncChatEvent event) {
         final Player player = event.getPlayer();
-        if (chatManager.chatMuted() && !player.hasPermission("simplychat.bypass.mute")) {
+        final User user = plugin.getUserService().getCachedUser(player.getUniqueId());
+        if (user == null) throw new NullPointerException("User is null");
+
+        final ChatChannel channel = user.getChatChannel();
+        if (channel.isChatMuted() && !player.hasPermission("simplychat.status.bypass.mute")) {
             event.getPlayer().sendMessage(ComponentUtils.miniCommon().deserialize(plugin.getConfig().getString("messages.chat-muted", "<red>Chat is currently locked!")));
             event.setCancelled(true);
+            return;
         }
-
-        if (chatManager.slowModeEnabled() && !player.hasPermission("simplychat.bypass.slowmode")) {
-            long lastChatTime = chatManager.getSlowModeMap().getOrDefault(player.getUniqueId(), 0L);
-            long currentTime = System.currentTimeMillis();
-            if (currentTime - lastChatTime < chatManager.slowModeTime()) {
+        if (channel.isSlowModeEnabled() && !player.hasPermission("simplychat.status.bypass.slowmode")) {
+            Instant lastChatTime = user.getLastMessageTime();
+            Instant currentTime = Instant.now();
+            if (lastChatTime != null && currentTime.minusMillis(channel.getSlowModeTime()).isBefore(lastChatTime)) {
                 player.sendMessage(ComponentUtils.miniCommon().deserialize(plugin.getConfig().getString("messages.slow-mode", "<yellow>Please wait before sending another message!")));
                 event.setCancelled(true);
                 return;
             }
-            chatManager.getSlowModeMap().put(player.getUniqueId(), currentTime);
         }
 
+        user.setLastMessageTime(Instant.now());
         event.renderer(this);
     }
 
@@ -108,7 +108,7 @@ public class PlayerChatListener implements Listener, ChatRenderer {
         if (plugin.isVaultEnabled()) format = plugin.getFormatManager().getFormat(VaultUtil.getPrimaryGroup(source));
         else format = plugin.getFormatManager().getDefaultFormat();
 
-        User user = userManager.getUser(source);
+        User user = plugin.getUserService().getCachedUser(source.getUniqueId());
         return format.parse(user, source, message, viewer);
     }
 }

@@ -1,7 +1,7 @@
 package cx.leo.simplychat.commands;
 
-import cx.leo.simplychat.ChatManager;
 import cx.leo.simplychat.SimplyChatPlugin;
+import cx.leo.simplychat.api.channel.ChatChannel;
 import cx.leo.simplychat.api.style.Style;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -13,17 +13,16 @@ import org.incendo.cloud.annotations.Command;
 import org.incendo.cloud.annotations.CommandDescription;
 import org.incendo.cloud.annotations.Permission;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class ChatCommands {
 
     private final static String COMMAND_PREFIX = "simplychat|chat";
 
     private final SimplyChatPlugin plugin;
-    private final ChatManager chatManager;
 
     public ChatCommands(SimplyChatPlugin plugin) {
         this.plugin = plugin;
-        this.chatManager = plugin.getChatManager();
     }
 
     @Command(COMMAND_PREFIX + " reload")
@@ -37,9 +36,17 @@ public class ChatCommands {
     @Command(COMMAND_PREFIX + " mute|lock")
     @Permission("simplychat.command.mute")
     @CommandDescription("Lock the chat, preventing players from sending messages")
-    public void onChatMute(@NotNull CommandSender sender) {
-        boolean newState = !chatManager.chatMuted();
-        chatManager.chatMuted(newState);
+    public void onChatMute(@NotNull CommandSender sender, @Nullable @Argument("channel") String channelId) { // TODO: Channel Argument
+        if (channelId == null) {
+            ChatChannel defaultChannel = plugin.getChatChannelManager().getDefaultChannel();
+            channelId = defaultChannel.getId();
+        }
+
+        ChatChannel channel = plugin.getChatChannelManager().getChannelById(channelId);
+        if (channel == null) return;
+
+        boolean newState = !channel.isChatMuted();
+        channel.setChatMuted(newState);
 
         if (newState) {
             sender.sendMessage(Component.text("Chat has been locked!", NamedTextColor.RED));
@@ -51,9 +58,17 @@ public class ChatCommands {
     @Command(COMMAND_PREFIX + " slowmode")
     @Permission("simplychat.command.slowmode")
     @CommandDescription("Toggle slow mode for the chat")
-    public void onChatSlowMode(@NotNull CommandSender sender) {
-        boolean newState = !chatManager.slowModeEnabled();
-        chatManager.slowModeEnabled(newState);
+    public void onChatSlowMode(@NotNull CommandSender sender, @Nullable @Argument("channel") String channelId) {
+        if (channelId == null) {
+            ChatChannel defaultChannel = plugin.getChatChannelManager().getDefaultChannel();
+            channelId = defaultChannel.getId();
+        }
+
+        ChatChannel channel = plugin.getChatChannelManager().getChannelById(channelId);
+        if (channel == null) return;
+
+        boolean newState = !channel.isSlowModeEnabled();
+        channel.setSlowModeEnabled(newState);
 
         if (newState) {
             sender.sendMessage(Component.text("Slow mode has been enabled!", NamedTextColor.YELLOW));

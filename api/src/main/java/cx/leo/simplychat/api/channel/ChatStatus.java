@@ -10,6 +10,13 @@ public interface ChatStatus {
     boolean isChatMuted();
 
     /**
+     * Mutes or unmutes the chat.
+     *
+     * @param muted true to mute the chat, false to unmute it.
+     */
+    void setChatMuted(boolean muted);
+
+    /**
      * Checks if slow mode is enabled.
      *
      * @return true if slow mode is enabled, false otherwise.
@@ -17,10 +24,24 @@ public interface ChatStatus {
     boolean isSlowModeEnabled();
 
     /**
-     * Gets the slow mode time in seconds.
+     * Enables or disables slow mode.
      *
-     * @return The slow mode time in seconds.
+     * @param enabled true to enable slow mode, false to disable it.
      */
-    long getSlowModeTime(); // in seconds
+    void setSlowModeEnabled(boolean enabled);
+
+    /**
+     * Sets the slow mode time in milliseconds.
+     *
+     * @param slowModeTime The slow mode time in milliseconds.
+     */
+    void setSlowModeTime(long slowModeTime);
+
+    /**
+     * Gets the slow mode time in milliseconds.
+     *
+     * @return The slow mode time in milliseconds.
+     */
+    long getSlowModeTime();
 
 }

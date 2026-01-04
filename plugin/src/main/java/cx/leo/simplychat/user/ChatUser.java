@@ -6,6 +6,7 @@ import cx.leo.simplychat.api.user.User;
 import cx.leo.simplychat.style.StyleImpl;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -34,12 +35,17 @@ public class ChatUser implements User {
     }
 
     @Override
+    public void setLastMessageTime(@Nullable Instant time) {
+        this.lastMessageTime = time;
+    }
+
+    @Override
     public @NotNull Style getNicknameStyle() {
         return nicknameStyle;
     }
 
     @Override
-    public void setNicknameStyle(Style nicknameStyle) {
+    public void setNicknameStyle(@NonNull Style nicknameStyle) {
         this.nicknameStyle = nicknameStyle;
     }
 
@@ -49,7 +55,7 @@ public class ChatUser implements User {
     }
 
     @Override
-    public void setChatStyle(Style chatStyle) {
+    public void setChatStyle(@NonNull Style chatStyle) {
         this.chatStyle = chatStyle;
     }
 
