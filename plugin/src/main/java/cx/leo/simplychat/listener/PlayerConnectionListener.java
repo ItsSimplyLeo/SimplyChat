@@ -10,8 +10,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import java.util.Optional;
-
 public class PlayerConnectionListener implements Listener {
 
     private final SimplyChatPlugin plugin;

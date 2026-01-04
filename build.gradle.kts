@@ -1,71 +1,36 @@
 plugins {
     id("java")
-    id("com.gradleup.shadow") version "9.2.2"
-    id("io.papermc.paperweight.userdev") version "2.0.0-beta.19"
+    id("com.gradleup.shadow") version "9.2.2" apply false
+    id("io.papermc.paperweight.userdev") version "2.0.0-beta.19" apply false
+    id("maven-publish")
 }
 
 group = "cx.leo.simplychat"
 version = "1.0.0-SNAPSHOT-overhaul"
 
-var cloudVersion: String = "2.0.0-beta.10" // For Minecraft Impl
-var cloudRcVersion: String = "2.0.0" // For Cloud
+allprojects {
+    group = "cx.leo.simplychat"
+    version = "1.0.0-SNAPSHOT-overhaul"
 
-repositories {
-    mavenCentral()
-    maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
-    maven("https://ci.ender.zone/plugin/repository/everything/") // Vault
+    repositories {
+        mavenCentral()
+        maven("https://repo.papermc.io/repository/maven-public/")
+    }
 }
 
-dependencies {
-    // PaperMC-API
-    paperweight.paperDevBundle("1.21.10-R0.1-SNAPSHOT")
+subprojects {
+    apply(plugin = "java")
 
-    // Cloud Command
-    implementation("org.incendo", "cloud-paper", cloudVersion)
-    implementation("org.incendo", "cloud-annotations", cloudRcVersion)
-    implementation("org.incendo", "cloud-minecraft-extras", cloudVersion)
-
-    // PlaceholderAPI
-    compileOnly("me.clip:placeholderapi:2.11.5")
-
-    // Vault
-    compileOnly("net.milkbowl.vault:VaultAPI:1.7")
-}
-
-java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
-}
-
-tasks {
-    assemble {
-        dependsOn(reobfJar)
+    configure<JavaPluginExtension> {
+        toolchain.languageVersion.set(JavaLanguageVersion.of(21))
     }
 
-    processResources {
-        val props = mapOf(
-            "version" to project.version,
-        )
-        inputs.properties(props)
-        filesMatching("paper-plugin.yml") {
-            expand(props)
-        }
-    }
-
-    compileJava {
+    tasks.withType<JavaCompile> {
         options.encoding = Charsets.UTF_8.name()
         options.release.set(21)
     }
 
-    javadoc {
+    tasks.withType<Javadoc> {
         options.encoding = Charsets.UTF_8.name()
-    }
-
-    shadowJar {
-        relocate("org.incendo.cloud", "cx.leo.simplychat.lib.cloud")
-        relocate("io.leangen.geantyref", "cx.leo.lib.cloud.io.leangen.geantyref")
-    }
-
-    build {
-        dependsOn(shadowJar)
     }
 }
