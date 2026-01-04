@@ -1,6 +1,6 @@
 package cx.leo.simplychat.format;
 
-import cx.leo.simplychat.user.User;
+import cx.leo.simplychat.api.user.User;
 import cx.leo.simplychat.utils.ComponentUtils;
 import cx.leo.simplychat.utils.PlaceholderUtil;
 import net.kyori.adventure.audience.Audience;

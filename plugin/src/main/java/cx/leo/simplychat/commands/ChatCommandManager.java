@@ -2,7 +2,7 @@ package cx.leo.simplychat.commands;
 
 import cx.leo.simplychat.SimplyChatPlugin;
 import cx.leo.simplychat.commands.argument.StyleCommandArgument;
-import cx.leo.simplychat.style.Style;
+import cx.leo.simplychat.api.style.Style;
 import org.bukkit.command.CommandSender;
 import org.incendo.cloud.SenderMapper;
 import org.incendo.cloud.annotations.AnnotationParser;

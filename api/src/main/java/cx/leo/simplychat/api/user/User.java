@@ -1,14 +1,18 @@
-package cx.leo.simplychat.user;
+package cx.leo.simplychat.api.user;
 
-import cx.leo.simplychat.channel.ChatChannel;
-import cx.leo.simplychat.style.Style;
+import cx.leo.simplychat.api.channel.ChatChannel;
+import cx.leo.simplychat.api.style.Style;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.time.Instant;
 import java.util.UUID;
 
 public interface User {
 
     @NotNull UUID getUUID();
+
+    @Nullable Instant getLastMessageTime();
 
     @NotNull Style getNicknameStyle();
 

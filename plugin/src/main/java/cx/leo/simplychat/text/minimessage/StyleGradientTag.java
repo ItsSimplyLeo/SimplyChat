@@ -24,7 +24,7 @@ SOFTWARE.
 package cx.leo.simplychat.text.minimessage;
 
 import cx.leo.simplychat.SimplyChatPlugin;
-import cx.leo.simplychat.style.Style;
+import cx.leo.simplychat.api.style.Style;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.minimessage.Context;
 import net.kyori.adventure.text.minimessage.tag.Tag;

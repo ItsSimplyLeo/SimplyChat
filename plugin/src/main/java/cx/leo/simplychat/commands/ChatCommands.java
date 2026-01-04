@@ -2,7 +2,7 @@ package cx.leo.simplychat.commands;
 
 import cx.leo.simplychat.ChatManager;
 import cx.leo.simplychat.SimplyChatPlugin;
-import cx.leo.simplychat.style.Style;
+import cx.leo.simplychat.api.style.Style;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.command.CommandSender;

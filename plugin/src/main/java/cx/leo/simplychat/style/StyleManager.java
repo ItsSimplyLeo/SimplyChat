@@ -11,7 +11,7 @@ import java.util.List;
 public class StyleManager {
 
     private final SimplyChatPlugin plugin;
-    private final HashMap<String, Style> styles;
+    private final HashMap<String, cx.leo.simplychat.api.style.Style> styles;
 
     public StyleManager(SimplyChatPlugin plugin) {
         this.plugin = plugin;
@@ -38,10 +38,10 @@ public class StyleManager {
                         return;
                     }
 
-                    Style.Type type;
+                    cx.leo.simplychat.api.style.Style.Type type;
 
                     try {
-                        type = Style.Type.valueOf(typeName.toUpperCase());
+                        type = cx.leo.simplychat.api.style.Style.Type.valueOf(typeName.toUpperCase());
                     } catch (IllegalArgumentException ex) {
                         plugin.getLogger().warning("Specified invalid style for ID (" + id + "). Skipping over.");
                         return;
@@ -49,7 +49,7 @@ public class StyleManager {
 
                     @NotNull List<String> colors = sec.getStringList(id + ".colors");
 
-                    Style style = new StyleImpl(id, type, colors.toArray(new String[0]));
+                    cx.leo.simplychat.api.style.Style style = new StyleImpl(id, type, colors.toArray(new String[0]));
 
                     this.styles.put(id.toLowerCase(), style);
                 }
@@ -64,7 +64,7 @@ public class StyleManager {
      *
      * @return If successfully created as long as id isn't already taken
      */
-    public boolean create(String id, Style.Type type, String... colors) {
+    public boolean create(String id, cx.leo.simplychat.api.style.Style.Type type, String... colors) {
         StyleImpl style = new StyleImpl(id, type, colors);
 
         if (styles.containsKey(id.toLowerCase())) {
@@ -79,7 +79,7 @@ public class StyleManager {
      *
      * @return Map of all loaded styles
      */
-    public @NotNull HashMap<String, Style> getStyles() {
+    public @NotNull HashMap<String, cx.leo.simplychat.api.style.Style> getStyles() {
         return styles;
     }
 
@@ -88,9 +88,9 @@ public class StyleManager {
      * @param id id to search for
      * @return Style found from id
      */
-    public @NotNull Style getStyle(String id) {
-        Style style = styles.get(id.toLowerCase());
-        if (style == null) return Style.DEFAULT;
+    public @NotNull cx.leo.simplychat.api.style.Style getStyle(String id) {
+        cx.leo.simplychat.api.style.Style style = styles.get(id.toLowerCase());
+        if (style == null) return StyleImpl.DEFAULT;
         else return style;
     }
 }

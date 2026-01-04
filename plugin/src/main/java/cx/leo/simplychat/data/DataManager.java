@@ -1,6 +1,6 @@
 package cx.leo.simplychat.data;
 
-import cx.leo.simplychat.user.User;
+import cx.leo.simplychat.api.user.User;
 
 import java.util.Optional;
 import java.util.UUID;

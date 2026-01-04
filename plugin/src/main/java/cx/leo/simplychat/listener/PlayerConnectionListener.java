@@ -2,7 +2,7 @@ package cx.leo.simplychat.listener;
 
 import cx.leo.simplychat.SimplyChatPlugin;
 import cx.leo.simplychat.data.DataManager;
-import cx.leo.simplychat.user.User;
+import cx.leo.simplychat.api.user.User;
 import cx.leo.simplychat.user.UserManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

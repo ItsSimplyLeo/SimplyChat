@@ -1,4 +1,4 @@
-package cx.leo.simplychat.style;
+package cx.leo.simplychat.api.style;
 
 import net.kyori.adventure.text.Component;
 
@@ -46,6 +46,4 @@ public interface Style {
     enum Type {
         SOLID, MULTI, GRADIENT
     }
-
-    StyleImpl DEFAULT = new StyleImpl("EMPTY", Type.SOLID, "");
 }

@@ -1,10 +1,11 @@
 package cx.leo.simplychat.data.impl.sqlite;
 
 import cx.leo.simplychat.SimplyChatPlugin;
+import cx.leo.simplychat.api.database.UserDatabase;
 import cx.leo.simplychat.data.DataManager;
 import cx.leo.simplychat.style.StyleManager;
 import cx.leo.simplychat.user.ChatUser;
-import cx.leo.simplychat.user.User;
+import cx.leo.simplychat.api.user.User;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -15,7 +16,7 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 
-public class SQLiteDataManager implements DataManager {
+public class SQLiteDataManager implements DataManager, UserDatabase {
 
     private static final String CREATE_USER_TABLE = "CREATE TABLE IF NOT EXISTS chat_users (" +
             "`uuid` varchar(32) NOT NULL," +
@@ -79,6 +80,9 @@ public class SQLiteDataManager implements DataManager {
         connect();
     }
 
+    /**
+     * @deprecated Use {@link #getUser(UUID)} instead.
+     */
     @Override
     public @NotNull CompletableFuture<Optional<User>> loadUser(UUID uuid) {
         return CompletableFuture.supplyAsync(() -> {
@@ -102,6 +106,10 @@ public class SQLiteDataManager implements DataManager {
         });
     }
 
+    /**
+     * @deprecated Use {@link #saveUser(User)} instead.
+     */
+    @Deprecated
     @Override
     public CompletableFuture<Void> updateUser(User user) {
         return CompletableFuture.supplyAsync(() -> {
@@ -119,4 +127,13 @@ public class SQLiteDataManager implements DataManager {
         });
     }
 
+    @Override
+    public @NotNull CompletableFuture<Optional<User>> getUser(@NotNull UUID uuid) {
+        return loadUser(uuid);
+    }
+
+    @Override
+    public @NotNull CompletableFuture<Void> saveUser(@NotNull User user) {
+        return updateUser(user);
+    }
 }

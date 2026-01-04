@@ -3,7 +3,7 @@ package cx.leo.simplychat.listener;
 import cx.leo.simplychat.ChatManager;
 import cx.leo.simplychat.SimplyChatPlugin;
 import cx.leo.simplychat.format.Format;
-import cx.leo.simplychat.user.User;
+import cx.leo.simplychat.api.user.User;
 import cx.leo.simplychat.user.UserManager;
 import cx.leo.simplychat.utils.ComponentUtils;
 import cx.leo.simplychat.utils.VaultUtil;

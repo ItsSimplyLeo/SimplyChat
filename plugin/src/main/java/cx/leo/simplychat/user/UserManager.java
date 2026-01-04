@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class UserManager {
 
     private final SimplyChatPlugin plugin;
-    private final Map<UUID, User> users;
+    private final Map<UUID, cx.leo.simplychat.api.user.User> users;
 
     public UserManager(SimplyChatPlugin plugin) {
         this.plugin = plugin;
@@ -21,13 +21,13 @@ public class UserManager {
     }
 
     /**
-     * Creates a new {@link User} object
+     * Creates a new {@link cx.leo.simplychat.api.user.User} object
      *
      * @param player Player to be converted
-     * @return the {@link User} of a player
+     * @return the {@link cx.leo.simplychat.api.user.User} of a player
      */
     @NotNull
-    public User createUser(@NotNull Player player) {
+    public cx.leo.simplychat.api.user.User createUser(@NotNull Player player) {
         return new ChatUser(player.getUniqueId(), plugin.getChatChannelManager().getDefaultChannel());
     }
 
@@ -36,7 +36,7 @@ public class UserManager {
      *
      * @param user User to be registered, should only be used by a {@link cx.leo.simplychat.data.DataManager}
      */
-    public void register(@NotNull User user) {
+    public void register(@NotNull cx.leo.simplychat.api.user.User user) {
         this.users.put(user.getUUID(), user);
     }
 
@@ -46,26 +46,26 @@ public class UserManager {
      * @return Tracked users
      */
     @NotNull
-    public Map<UUID, User> getUsers() {
+    public Map<UUID, cx.leo.simplychat.api.user.User> getUsers() {
         return users;
     }
 
     /**
      *
-     * @param player Player to get the {@link User} of
-     * @return The {@link User} found from the {@link Player}
+     * @param player Player to get the {@link cx.leo.simplychat.api.user.User} of
+     * @return The {@link cx.leo.simplychat.api.user.User} found from the {@link Player}
      */
-    public @NotNull User getUser(Player player) {
+    public @NotNull cx.leo.simplychat.api.user.User getUser(Player player) {
         return users.get(player.getUniqueId());
     }
 
     /**
      *
-     * @param player Player to get the {@link User} or create
-     * @return The {@link User} from the {@link Player}
+     * @param player Player to get the {@link cx.leo.simplychat.api.user.User} or create
+     * @return The {@link cx.leo.simplychat.api.user.User} from the {@link Player}
      */
-    public @NotNull User getOrCreateUser(Player player) {
-        User user;
+    public @NotNull cx.leo.simplychat.api.user.User getOrCreateUser(Player player) {
+        cx.leo.simplychat.api.user.User user;
         UUID uuid = player.getUniqueId();
 
         if (users.containsKey(uuid)) user = users.get(uuid);
@@ -82,7 +82,7 @@ public class UserManager {
      *
      * @param user user to update and unload
      */
-    public void unload(@NotNull User user) {
+    public void unload(@NotNull cx.leo.simplychat.api.user.User user) {
         updateUser(user);
         users.remove(user.getUUID());
     }
@@ -91,7 +91,7 @@ public class UserManager {
      *
      * @param user Specified user to update in the database
      */
-    public void updateUser(User user) {
+    public void updateUser(cx.leo.simplychat.api.user.User user) {
         new BukkitRunnable() {
             @Override
             public void run() {

@@ -7,13 +7,15 @@ import net.kyori.adventure.text.format.TextDecoration;
 
 import java.util.Arrays;
 
-public class StyleImpl implements Style {
+public class StyleImpl implements cx.leo.simplychat.api.style.Style {
+
+    public static cx.leo.simplychat.api.style.Style DEFAULT = new StyleImpl("EMPTY", Type.SOLID, "");
 
     private final String id;
-    private final Style.Type type;
+    private final cx.leo.simplychat.api.style.Style.Type type;
     protected final String[] colors;
 
-    protected StyleImpl(String id, Style.Type type, String... colors) {
+    protected StyleImpl(String id, cx.leo.simplychat.api.style.Style.Type type, String... colors) {
         this.id = id;
         this.type = type;
         this.colors = colors;
@@ -40,7 +42,7 @@ public class StyleImpl implements Style {
     }
 
     @Override
-    public Style.Type getType() {
+    public cx.leo.simplychat.api.style.Style.Type getType() {
         return type;
     }
 

@@ -1,8 +1,8 @@
 package cx.leo.simplychat.commands;
 
 import cx.leo.simplychat.SimplyChatPlugin;
-import cx.leo.simplychat.style.Style;
-import cx.leo.simplychat.user.User;
+import cx.leo.simplychat.api.style.Style;
+import cx.leo.simplychat.api.user.User;
 import org.bukkit.entity.Player;
 import org.incendo.cloud.annotations.Argument;
 import org.incendo.cloud.annotations.Command;

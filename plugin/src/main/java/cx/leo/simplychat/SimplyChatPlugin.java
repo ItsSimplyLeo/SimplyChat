@@ -1,5 +1,7 @@
 package cx.leo.simplychat;
 
+import cx.leo.simplychat.api.SimplyChatAPI;
+import cx.leo.simplychat.api.database.UserService;
 import cx.leo.simplychat.channel.ChatChannelManager;
 import cx.leo.simplychat.commands.ChatCommands;
 import cx.leo.simplychat.commands.ChatCommandManager;
@@ -10,6 +12,7 @@ import cx.leo.simplychat.data.impl.sqlite.SQLiteDataManager;
 import cx.leo.simplychat.format.FormatManager;
 import cx.leo.simplychat.listener.PlayerChatListener;
 import cx.leo.simplychat.listener.PlayerConnectionListener;
+import cx.leo.simplychat.service.UserServiceImpl;
 import cx.leo.simplychat.style.StyleManager;
 import cx.leo.simplychat.user.UserManager;
 import cx.leo.simplychat.utils.VaultUtil;
@@ -18,7 +21,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-public class SimplyChatPlugin extends JavaPlugin {
+public class SimplyChatPlugin extends JavaPlugin implements SimplyChatAPI {
 
     private static SimplyChatPlugin instance;
 
@@ -30,6 +33,7 @@ public class SimplyChatPlugin extends JavaPlugin {
     private StyleManager styleManager;
     private ChatChannelManager chatChannelManager;
     private DataManager dataManager;
+    private UserService userService;
     private UserManager userManager;
 
     @Override
@@ -41,7 +45,12 @@ public class SimplyChatPlugin extends JavaPlugin {
         this.formatManager = new FormatManager(this);
         this.styleManager = new StyleManager(this);
         this.chatChannelManager = new ChatChannelManager();
-        this.dataManager = new SQLiteDataManager(this); // TODO Implement multiple ways to store data.
+
+        // TODO: Unify data handling.
+        SQLiteDataManager sqLiteDataManager = new SQLiteDataManager(this);
+        this.dataManager = sqLiteDataManager;
+        this.userService = new UserServiceImpl(sqLiteDataManager);
+
         this.userManager = new UserManager(this);
 
         this.registerEvent(new PlayerChatListener(this));
@@ -121,5 +130,10 @@ public class SimplyChatPlugin extends JavaPlugin {
     @Override
     public void saveConfig() {
         configManager.getMainConfig().save();
+    }
+
+    @Override
+    public @NotNull UserService getUserService() {
+        return userService;
     }
 }

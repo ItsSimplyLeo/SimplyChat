@@ -1,7 +1,7 @@
 package cx.leo.simplychat.commands.argument;
 
 import cx.leo.simplychat.SimplyChatPlugin;
-import cx.leo.simplychat.style.Style;
+import cx.leo.simplychat.api.style.Style;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.incendo.cloud.caption.Caption;
 import org.incendo.cloud.caption.CaptionVariable;
