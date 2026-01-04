@@ -1,5 +1,6 @@
 package cx.leo.simplychat;
 
+import cx.leo.simplychat.channel.ChatChannelManager;
 import cx.leo.simplychat.commands.ChatCommands;
 import cx.leo.simplychat.commands.ChatCommandManager;
 import cx.leo.simplychat.commands.StyleCommands;
@@ -27,6 +28,7 @@ public class SimplyChatPlugin extends JavaPlugin {
     private ChatManager chatManager;
     private FormatManager formatManager;
     private StyleManager styleManager;
+    private ChatChannelManager chatChannelManager;
     private DataManager dataManager;
     private UserManager userManager;
 
@@ -38,6 +40,7 @@ public class SimplyChatPlugin extends JavaPlugin {
         this.chatManager = new ChatManager();
         this.formatManager = new FormatManager(this);
         this.styleManager = new StyleManager(this);
+        this.chatChannelManager = new ChatChannelManager();
         this.dataManager = new SQLiteDataManager(this); // TODO Implement multiple ways to store data.
         this.userManager = new UserManager(this);
 
@@ -87,6 +90,10 @@ public class SimplyChatPlugin extends JavaPlugin {
 
     public StyleManager getStyleManager() {
         return styleManager;
+    }
+
+    public ChatChannelManager getChatChannelManager() {
+        return chatChannelManager;
     }
 
     public DataManager getDataManager() {

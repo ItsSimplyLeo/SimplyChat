@@ -88,7 +88,7 @@ public class SQLiteDataManager implements DataManager {
                 statement.setString(1, uuid.toString());
                 try (ResultSet result = statement.executeQuery()) {
                     if (result.next()) {
-                        User user = new ChatUser(uuid);
+                        User user = new ChatUser(uuid, plugin.getChatChannelManager().getDefaultChannel());
                         StyleManager styleManager = plugin.getStyleManager();
                         user.setNicknameStyle(styleManager.getStyle(result.getString("nickname_style")));
                         user.setChatStyle(styleManager.getStyle(result.getString("chat_style")));

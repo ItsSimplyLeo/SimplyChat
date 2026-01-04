@@ -9,3 +9,13 @@ item-hover:
     - '[item]'
     - '[hand]'
     - '[showitem]'
+
+channel-settings:
+  default: 'global'
+  channels:
+    global:
+      permission: 'simplychat.channel.global'
+    staff:
+      permission: 'simplychat.channel.staff'
+    admin:
+      permission: 'simplychat.channel.admin'

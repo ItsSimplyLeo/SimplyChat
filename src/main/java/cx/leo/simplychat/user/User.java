@@ -1,5 +1,6 @@
 package cx.leo.simplychat.user;
 
+import cx.leo.simplychat.channel.ChatChannel;
 import cx.leo.simplychat.style.Style;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,4 +17,8 @@ public interface User {
     @NotNull Style getChatStyle();
 
     void setChatStyle(Style style);
+
+    @NotNull ChatChannel getChatChannel();
+
+    void setChatChannel(@NotNull ChatChannel channel);
 }

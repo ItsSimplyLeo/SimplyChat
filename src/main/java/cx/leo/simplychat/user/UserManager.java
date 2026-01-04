@@ -28,7 +28,7 @@ public class UserManager {
      */
     @NotNull
     public User createUser(@NotNull Player player) {
-        return new ChatUser(player.getUniqueId());
+        return new ChatUser(player.getUniqueId(), plugin.getChatChannelManager().getDefaultChannel());
     }
 
     /**
@@ -69,7 +69,7 @@ public class UserManager {
         UUID uuid = player.getUniqueId();
 
         if (users.containsKey(uuid)) user = users.get(uuid);
-        else user = new ChatUser(uuid);
+        else user = new ChatUser(uuid, plugin.getChatChannelManager().getDefaultChannel());
 
         updateUser(user);
         users.put(uuid, user);
