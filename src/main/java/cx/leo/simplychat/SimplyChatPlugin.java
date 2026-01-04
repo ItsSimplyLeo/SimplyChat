@@ -8,7 +8,7 @@ import cx.leo.simplychat.config.ConfigManager;
 import cx.leo.simplychat.data.DataManager;
 import cx.leo.simplychat.data.impl.sqlite.SQLiteDataManager;
 import cx.leo.simplychat.format.FormatManager;
-import cx.leo.simplychat.listener.ChatListener;
+import cx.leo.simplychat.listener.PlayerChatListener;
 import cx.leo.simplychat.listener.PlayerConnectionListener;
 import cx.leo.simplychat.style.StyleManager;
 import cx.leo.simplychat.user.UserManager;
@@ -44,7 +44,7 @@ public class SimplyChatPlugin extends JavaPlugin {
         this.dataManager = new SQLiteDataManager(this); // TODO Implement multiple ways to store data.
         this.userManager = new UserManager(this);
 
-        this.registerEvent(new ChatListener(this));
+        this.registerEvent(new PlayerChatListener(this));
         this.registerEvent(new PlayerConnectionListener(this));
 
         this.commandManager.parse(new ChatCommands(this));

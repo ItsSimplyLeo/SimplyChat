@@ -1,6 +1,6 @@
 package cx.leo.simplychat.format;
 
-import cx.leo.simplychat.listener.ChatListener;
+import cx.leo.simplychat.listener.PlayerChatListener;
 import cx.leo.simplychat.user.User;
 import cx.leo.simplychat.utils.ComponentUtils;
 import cx.leo.simplychat.utils.PlaceholderUtil;
@@ -8,7 +8,6 @@ import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
-import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.minimessage.tag.Tag;
 import net.kyori.adventure.text.minimessage.tag.resolver.ArgumentQueue;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
@@ -76,7 +75,7 @@ public class Format {
         );
     }
 
-    public Component parse(ChatListener listener, User user, Player source, Component displayName, Component message, Audience viewer) {
+    public Component parse(PlayerChatListener listener, User user, Player source, Component displayName, Component message, Audience viewer) {
         return ComponentUtils.miniCommon().deserialize(
                 PlaceholderUtil.parse(source, content),
                 //Placeholder.component("name", displayName),
@@ -88,7 +87,7 @@ public class Format {
         );
     }
 
-    private Component handleExtras(ChatListener listener, Player source, Component message, Audience viewer) {
+    private Component handleExtras(PlayerChatListener listener, Player source, Component message, Audience viewer) {
         String messageString = PlainTextComponentSerializer.plainText().serialize(message);
         if (viewer instanceof Player player) {
             String playerName = player.getName();
