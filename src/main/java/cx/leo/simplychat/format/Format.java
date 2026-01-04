@@ -75,19 +75,19 @@ public class Format {
         );
     }
 
-    public Component parse(PlayerChatListener listener, User user, Player source, Component displayName, Component message, Audience viewer) {
+    public Component parse(User user, Player source, Component message, Audience viewer) {
         return ComponentUtils.miniCommon().deserialize(
                 PlaceholderUtil.parse(source, content),
                 //Placeholder.component("name", displayName),
                 ComponentUtils.playerTags(source),
                 Placeholder.component("styled_name", user.getNicknameStyle().apply(source.getName())),
-                Placeholder.component("styled_message", handleExtras(listener, source, user.getChatStyle().apply(PlainTextComponentSerializer.plainText().serialize(message)), viewer)),
-                Placeholder.component("message", handleExtras(listener, source, message, viewer)),
+                Placeholder.component("styled_message", handleExtras(user.getChatStyle().apply(PlainTextComponentSerializer.plainText().serialize(message)), viewer)),
+                Placeholder.component("message", handleExtras(message, viewer)),
                 TagResolver.resolver("action", (queue, context) -> getChatResolver(queue, source))
         );
     }
 
-    private Component handleExtras(PlayerChatListener listener, Player source, Component message, Audience viewer) {
+    private Component handleExtras(Component message, Audience viewer) {
         String messageString = PlainTextComponentSerializer.plainText().serialize(message);
         if (viewer instanceof Player player) {
             String playerName = player.getName();
@@ -97,8 +97,6 @@ public class Format {
                         .once());
                 player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 0.5f);
             }
-
-            message = listener.handleShowItem(source, message, messageString);
         }
         return message;
     }

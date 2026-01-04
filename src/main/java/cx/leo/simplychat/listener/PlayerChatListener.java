@@ -109,7 +109,6 @@ public class PlayerChatListener implements Listener, ChatRenderer {
         else format = plugin.getFormatManager().getDefaultFormat();
 
         User user = userManager.getUser(source);
-        displayName = user.getNicknameStyle().apply(source.getName());
-        return format.parse(this, user, source, displayName, message, viewer);
+        return format.parse(user, source, message, viewer);
     }
 }
