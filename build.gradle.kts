@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "cx.leo.simplychat"
-version = "1.0.0-SNAPSHOT"
+version = "1.0.0-SNAPSHOT-overhaul"
 
 var cloudVersion: String = "2.0.0-beta.10" // For Minecraft Impl
 var cloudRcVersion: String = "2.0.0" // For Cloud
