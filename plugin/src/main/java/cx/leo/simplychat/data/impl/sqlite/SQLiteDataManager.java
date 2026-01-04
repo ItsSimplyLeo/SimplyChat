@@ -4,7 +4,7 @@ import cx.leo.simplychat.SimplyChatPlugin;
 import cx.leo.simplychat.api.database.UserDatabase;
 import cx.leo.simplychat.data.DataManager;
 import cx.leo.simplychat.style.StyleManager;
-import cx.leo.simplychat.user.ChatUser;
+import cx.leo.simplychat.user.UserImpl;
 import cx.leo.simplychat.api.user.User;
 import org.jetbrains.annotations.NotNull;
 
@@ -92,7 +92,7 @@ public class SQLiteDataManager implements DataManager, UserDatabase {
                 statement.setString(1, uuid.toString());
                 try (ResultSet result = statement.executeQuery()) {
                     if (result.next()) {
-                        User user = new ChatUser(uuid, plugin.getChatChannelManager().getDefaultChannel());
+                        User user = new UserImpl(uuid, plugin.getChatChannelManager().getDefaultChannel());
                         StyleManager styleManager = plugin.getStyleManager();
                         user.setNicknameStyle(styleManager.getStyle(result.getString("nickname_style")));
                         user.setChatStyle(styleManager.getStyle(result.getString("chat_style")));

@@ -28,7 +28,7 @@ public class UserManager {
      */
     @NotNull
     public cx.leo.simplychat.api.user.User createUser(@NotNull Player player) {
-        return new ChatUser(player.getUniqueId(), plugin.getChatChannelManager().getDefaultChannel());
+        return new UserImpl(player.getUniqueId(), plugin.getChatChannelManager().getDefaultChannel());
     }
 
     /**
@@ -69,7 +69,7 @@ public class UserManager {
         UUID uuid = player.getUniqueId();
 
         if (users.containsKey(uuid)) user = users.get(uuid);
-        else user = new ChatUser(uuid, plugin.getChatChannelManager().getDefaultChannel());
+        else user = new UserImpl(uuid, plugin.getChatChannelManager().getDefaultChannel());
 
         updateUser(user);
         users.put(uuid, user);
